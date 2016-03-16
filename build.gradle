@@ -37,11 +37,11 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
-repositories {
-    flatDir {
-        dirs 'mylib'
-    }
-}
+//repositories {
+//    flatDir {
+//        dirs 'mylib'
+//    }
+//}
 
 dependencies {
     // you may put jars on which you depend on in ./libs
@@ -60,7 +60,7 @@ dependencies {
     // except that these dependencies get remapped to your current MCP mappings
     //deobfCompile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
     //deobfProvided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-    deobfCompile 'silentgems:SilentsGems:1.8.9-1.3.10b-106'
+//    deobfCompile 'silentgems:SilentsGems:1.8.9-1.3.10b-106'
 
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

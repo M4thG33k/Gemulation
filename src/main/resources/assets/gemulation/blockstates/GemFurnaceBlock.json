@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "minecraft:cube_all",
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "variant=ruby": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock0"}}],
+    "variant=garnet": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock1"}}],
+    "variant=topaz": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock2"}}],
+    "variant=heliodor": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock3"}}],
+    "variant=peridot": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock4"}}],
+    "variant=beryl": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock5"}}],
+    "variant=aquamarine": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock6"}}],
+    "variant=sapphire": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock7"}}],
+    "variant=iolite": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock8"}}],
+    "variant=amethyst": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock9"}}],
+    "variant=morganite": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock10"}}],
+    "variant=onyx": [{"textures": {"all": "gemulation:blocks/FurnaceGemBlock11"}}]
+  }
+}
