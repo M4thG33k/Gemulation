@@ -66,8 +66,7 @@ public class GemFurnaceBlock extends BaseBlock{
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-        worldIn.setBlockState(pos,state.withProperty(GemulationStateProps.CARDINALS, placer.getHorizontalFacing().getOpposite()));
-        System.out.print("Facing:" + placer.getHorizontalFacing().getOpposite().getName()+"\n");
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+        return this.getStateFromMeta(meta).withProperty(GemulationStateProps.CARDINALS,placer.getHorizontalFacing().getOpposite());
     }
 }
