@@ -1,16 +1,20 @@
 package com.m4thg33k.gemulation.block;
 
+import com.m4thg33k.gemulation.api.GemulationStateProps;
 import com.m4thg33k.gemulation.lib.Names;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -19,24 +23,26 @@ import java.util.List;
 
 public class GemFurnaceBlock extends BaseBlock{
 
-    public static final PropertyEnum VARIANT = PropertyEnum.create("variant", EnumGem.class);
+    public static final PropertyEnum<EnumGem> VARIANT = PropertyEnum.create("variant", EnumGem.class);
+    public static final PropertyBool ON = PropertyBool.create("on");
 
     public GemFurnaceBlock()
     {
         super(Names.GEM_FURNACE, Material.iron,5.0f,10.0f);
 
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY).withProperty(GemulationStateProps.CARDINALS, EnumFacing.NORTH).withProperty(ON,false));
     }
 
     @Override
     protected BlockState createBlockState() {
-        return new BlockState(this,new IProperty[]{VARIANT});
+        return new BlockState(this,VARIANT,GemulationStateProps.CARDINALS,ON);
     }
 
     @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-        list.add(new ItemStack(itemIn,1,0));
-        list.add(new ItemStack(itemIn,1,1));
+        for (int i=0;i<EnumGem.values().length;i++) {
+            list.add(new ItemStack(itemIn, 1, i));
+        }
     }
 
     @Override
@@ -46,7 +52,7 @@ public class GemFurnaceBlock extends BaseBlock{
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return ((EnumGem) state.getValue(VARIANT)).id;
+        return (state.getValue(VARIANT)).id;
     }
 
     @Override
@@ -57,5 +63,11 @@ public class GemFurnaceBlock extends BaseBlock{
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(Item.getItemFromBlock(this),1,this.getMetaFromState(world.getBlockState(pos)));
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        worldIn.setBlockState(pos,state.withProperty(GemulationStateProps.CARDINALS, placer.getHorizontalFacing().getOpposite()));
+        System.out.print("Facing:" + placer.getHorizontalFacing().getOpposite().getName()+"\n");
     }
 }
