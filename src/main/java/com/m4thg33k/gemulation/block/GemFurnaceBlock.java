@@ -96,7 +96,7 @@ public class GemFurnaceBlock extends BaseBlock{
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileGemFurnace(this.getMetaFromState(state));
+        return new TileGemFurnace(state.getValue(VARIANT).id);  //this.getMetaFromState(state));
     }
 
 //    @Override

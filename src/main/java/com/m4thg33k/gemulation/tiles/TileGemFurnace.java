@@ -23,20 +23,13 @@ public class TileGemFurnace extends TileEntity{
         super();
         meta = m;
         facing = EnumFacing.NORTH;
-        System.out.print("Setting to default on");
-        if (worldObj.isRemote)
-        {
-            System.out.print("Client\n");
-        }
-        else{
-            System.out.print("Server\n");
-        }
         isOn = false;
     }
 
     public void setFacing(EnumFacing f)
     {
         facing = f;
+        markDirty();
     }
 
     public boolean getOn()
