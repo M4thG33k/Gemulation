@@ -34,6 +34,7 @@ public class TileGemFurnace extends TileEntity{
     public boolean toggleOn()
     {
         worldObj.markBlockForUpdate(pos);
+        markDirty();
 //        worldObj.checkLight(pos);
         isOn = !isOn;
         return isOn;
@@ -49,6 +50,7 @@ public class TileGemFurnace extends TileEntity{
         super.readFromNBT(compound);
         meta = compound.getInteger("meta");
         facing = EnumFacing.VALUES[compound.getInteger("facing")];
+        isOn = compound.getBoolean("on");
     }
 
     @Override
@@ -56,6 +58,7 @@ public class TileGemFurnace extends TileEntity{
         super.writeToNBT(compound);
         compound.setInteger("meta",meta);
         compound.setInteger("facing",facing.ordinal());
+        compound.setBoolean("on",isOn);
     }
 
     @Override
