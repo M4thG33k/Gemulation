@@ -1,6 +1,8 @@
 {
-  "parent": "block/cube_all",
+  "parent": "minecraft:orientable",
   "textures": {
-    "all": "gemulation:blocks/FurnaceGemBlock0"
+    "front": "gemulation:blocks/FurnaceGemBlock0",
+    "top": "silentgems:blocks/GemBlock0",
+    "side": "silentgems:blocks/GemBlock0"
   }
 }
