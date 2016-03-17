@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -82,10 +83,11 @@ public class GemFurnaceBlock extends BaseBlock{
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity!=null && tileEntity instanceof TileGemFurnace)
+        TileGemFurnace tileEntity = (TileGemFurnace)worldIn.getTileEntity(pos);
+        tileEntity.setFacing(placer.getHorizontalFacing().getOpposite());
+        if (stack.hasDisplayName())
         {
-            ((TileGemFurnace) tileEntity).setFacing(placer.getHorizontalFacing().getOpposite());
+            tileEntity.setCustomName(stack.getDisplayName());
         }
     }
 
@@ -114,15 +116,13 @@ public class GemFurnaceBlock extends BaseBlock{
         return true;
     }
 
-//    @Override
-//    public int getLightValue(IBlockAccess world, BlockPos pos) {
-//        TileEntity tileEntity = world.getTileEntity(pos);
-//        if (tileEntity!=null && tileEntity instanceof TileGemFurnace)
-//        {
-//            if (((TileGemFurnace) tileEntity).getOn()){
-//                return 15;
-//            }
-//        }
-//        return 0;
-//    }
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        TileGemFurnace te = (TileGemFurnace)worldIn.getTileEntity(pos);
+
+        InventoryHelper.dropInventoryItems(worldIn,pos,te);
+        super.breakBlock(worldIn, pos, state);
+    }
+
+
 }
