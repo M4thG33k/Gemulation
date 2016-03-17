@@ -9,6 +9,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -92,4 +93,26 @@ public class GemFurnaceBlock extends BaseBlock implements ITileEntityProvider{
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileGemFurnace(meta);
     }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity != null && tileEntity instanceof TileGemFurnace)
+        {
+            ((TileGemFurnace) tileEntity).toggleOn();
+        }
+        return true;
+    }
+
+//    @Override
+//    public int getLightValue(IBlockAccess world, BlockPos pos) {
+//        TileEntity tileEntity = world.getTileEntity(pos);
+//        if (tileEntity!=null && tileEntity instanceof TileGemFurnace)
+//        {
+//            if (((TileGemFurnace) tileEntity).getOn()){
+//                return 15;
+//            }
+//        }
+//        return 0;
+//    }
 }

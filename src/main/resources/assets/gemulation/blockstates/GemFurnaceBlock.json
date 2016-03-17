@@ -5,100 +5,676 @@
     "transform": "forge:default-block"
   },
   "variants": {
-    "facing": {
-      "north" : {},
-      "south": {"y": 180},
-      "west": {"y": 270},
-      "east": {"y": 90}
+    "facing=north,on=true,variant=ruby": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock0",
+        "side": "silentgems:blocks/GemBlock0",
+        "top": "silentgems:blocks/GemBlock0"
+      }
     },
-    "on": {
-      "true": {},
-      "false": {}
+    "facing=north,on=true,variant=garnet": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock1",
+        "side": "silentgems:blocks/GemBlock1",
+        "top": "silentgems:blocks/GemBlock1"
+      }
     },
-    "variant": {
-      "ruby": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock0",
-          "top": "silentgems:blocks/GemBlock0",
-          "side": "silentgems:blocks/GemBlock0"
-        }
-      },
-      "garnet": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock1",
-          "top": "silentgems:blocks/GemBlock1",
-          "side": "silentgems:blocks/GemBlock1"
-        }
-      },
-      "topaz": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock2",
-          "top": "silentgems:blocks/GemBlock2",
-          "side": "silentgems:blocks/GemBlock2"
-        }
-      },
-      "heliodor": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock3",
-          "top": "silentgems:blocks/GemBlock3",
-          "side": "silentgems:blocks/GemBlock3"
-        }
-      },
-      "peridot": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock4",
-          "top": "silentgems:blocks/GemBlock4",
-          "side": "silentgems:blocks/GemBlock4"
-        }
-      },
-      "beryl": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock5",
-          "top": "silentgems:blocks/GemBlock5",
-          "side": "silentgems:blocks/GemBlock5"
-        }
-      },
-      "aquamarine": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock6",
-          "top": "silentgems:blocks/GemBlock6",
-          "side": "silentgems:blocks/GemBlock6"
-        }
-      },
-      "sapphire": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock7",
-          "top": "silentgems:blocks/GemBlock7",
-          "side": "silentgems:blocks/GemBlock7"
-        }
-      },
-      "iolite": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock8",
-          "top": "silentgems:blocks/GemBlock8",
-          "side": "silentgems:blocks/GemBlock8"
-        }
-      },
-      "amethyst": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock9",
-          "top": "silentgems:blocks/GemBlock9",
-          "side": "silentgems:blocks/GemBlock9"
-        }
-      },
-      "morganite": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock10",
-          "top": "silentgems:blocks/GemBlock10",
-          "side": "silentgems:blocks/GemBlock10"
-        }
-      },
-      "onyx": {
-        "textures": {
-          "front": "gemulation:blocks/FurnaceGemBlock11",
-          "top": "silentgems:blocks/GemBlock11",
-          "side": "silentgems:blocks/GemBlock11"
-        }
+    "facing=north,on=true,variant=topaz": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock2",
+        "side": "silentgems:blocks/GemBlock2",
+        "top": "silentgems:blocks/GemBlock2"
+      }
+    },
+    "facing=north,on=true,variant=heliodor": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock3",
+        "side": "silentgems:blocks/GemBlock3",
+        "top": "silentgems:blocks/GemBlock3"
+      }
+    },
+    "facing=north,on=true,variant=peridot": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock4",
+        "side": "silentgems:blocks/GemBlock4",
+        "top": "silentgems:blocks/GemBlock4"
+      }
+    },
+    "facing=north,on=true,variant=beryl": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock5",
+        "side": "silentgems:blocks/GemBlock5",
+        "top": "silentgems:blocks/GemBlock5"
+      }
+    },
+    "facing=north,on=true,variant=aquamarine": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock6",
+        "side": "silentgems:blocks/GemBlock6",
+        "top": "silentgems:blocks/GemBlock6"
+      }
+    },
+    "facing=north,on=true,variant=sapphire": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock7",
+        "side": "silentgems:blocks/GemBlock7",
+        "top": "silentgems:blocks/GemBlock7"
+      }
+    },
+    "facing=north,on=true,variant=iolite": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock8",
+        "side": "silentgems:blocks/GemBlock8",
+        "top": "silentgems:blocks/GemBlock8"
+      }
+    },
+    "facing=north,on=true,variant=amethyst": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock9",
+        "side": "silentgems:blocks/GemBlock9",
+        "top": "silentgems:blocks/GemBlock9"
+      }
+    },
+    "facing=north,on=true,variant=morganite": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock10",
+        "side": "silentgems:blocks/GemBlock10",
+        "top": "silentgems:blocks/GemBlock10"
+      }
+    },
+    "facing=north,on=true,variant=onyx": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock11",
+        "side": "silentgems:blocks/GemBlock11",
+        "top": "silentgems:blocks/GemBlock11"
+      }
+    },
+    "facing=north,on=false,variant=ruby": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock0",
+        "side": "silentgems:blocks/GemBlock0",
+        "top": "silentgems:blocks/GemBlock0"
+      }
+    },
+    "facing=north,on=false,variant=garnet": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock1",
+        "side": "silentgems:blocks/GemBlock1",
+        "top": "silentgems:blocks/GemBlock1"
+      }
+    },
+    "facing=north,on=false,variant=topaz": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock2",
+        "side": "silentgems:blocks/GemBlock2",
+        "top": "silentgems:blocks/GemBlock2"
+      }
+    },
+    "facing=north,on=false,variant=heliodor": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock3",
+        "side": "silentgems:blocks/GemBlock3",
+        "top": "silentgems:blocks/GemBlock3"
+      }
+    },
+    "facing=north,on=false,variant=peridot": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock4",
+        "side": "silentgems:blocks/GemBlock4",
+        "top": "silentgems:blocks/GemBlock4"
+      }
+    },
+    "facing=north,on=false,variant=beryl": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock5",
+        "side": "silentgems:blocks/GemBlock5",
+        "top": "silentgems:blocks/GemBlock5"
+      }
+    },
+    "facing=north,on=false,variant=aquamarine": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock6",
+        "side": "silentgems:blocks/GemBlock6",
+        "top": "silentgems:blocks/GemBlock6"
+      }
+    },
+    "facing=north,on=false,variant=sapphire": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock7",
+        "side": "silentgems:blocks/GemBlock7",
+        "top": "silentgems:blocks/GemBlock7"
+      }
+    },
+    "facing=north,on=false,variant=iolite": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock8",
+        "side": "silentgems:blocks/GemBlock8",
+        "top": "silentgems:blocks/GemBlock8"
+      }
+    },
+    "facing=north,on=false,variant=amethyst": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock9",
+        "side": "silentgems:blocks/GemBlock9",
+        "top": "silentgems:blocks/GemBlock9"
+      }
+    },
+    "facing=north,on=false,variant=morganite": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock10",
+        "side": "silentgems:blocks/GemBlock10",
+        "top": "silentgems:blocks/GemBlock10"
+      }
+    },
+    "facing=north,on=false,variant=onyx": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock11",
+        "side": "silentgems:blocks/GemBlock11",
+        "top": "silentgems:blocks/GemBlock11"
+      }
+    },
+    "facing=south,on=true,variant=ruby": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock0",
+        "side": "silentgems:blocks/GemBlock0",
+        "top": "silentgems:blocks/GemBlock0"
+      }
+    },
+    "facing=south,on=true,variant=garnet": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock1",
+        "side": "silentgems:blocks/GemBlock1",
+        "top": "silentgems:blocks/GemBlock1"
+      }
+    },
+    "facing=south,on=true,variant=topaz": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock2",
+        "side": "silentgems:blocks/GemBlock2",
+        "top": "silentgems:blocks/GemBlock2"
+      }
+    },
+    "facing=south,on=true,variant=heliodor": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock3",
+        "side": "silentgems:blocks/GemBlock3",
+        "top": "silentgems:blocks/GemBlock3"
+      }
+    },
+    "facing=south,on=true,variant=peridot": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock4",
+        "side": "silentgems:blocks/GemBlock4",
+        "top": "silentgems:blocks/GemBlock4"
+      }
+    },
+    "facing=south,on=true,variant=beryl": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock5",
+        "side": "silentgems:blocks/GemBlock5",
+        "top": "silentgems:blocks/GemBlock5"
+      }
+    },
+    "facing=south,on=true,variant=aquamarine": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock6",
+        "side": "silentgems:blocks/GemBlock6",
+        "top": "silentgems:blocks/GemBlock6"
+      }
+    },
+    "facing=south,on=true,variant=sapphire": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock7",
+        "side": "silentgems:blocks/GemBlock7",
+        "top": "silentgems:blocks/GemBlock7"
+      }
+    },
+    "facing=south,on=true,variant=iolite": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock8",
+        "side": "silentgems:blocks/GemBlock8",
+        "top": "silentgems:blocks/GemBlock8"
+      }
+    },
+    "facing=south,on=true,variant=amethyst": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock9",
+        "side": "silentgems:blocks/GemBlock9",
+        "top": "silentgems:blocks/GemBlock9"
+      }
+    },
+    "facing=south,on=true,variant=morganite": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock10",
+        "side": "silentgems:blocks/GemBlock10",
+        "top": "silentgems:blocks/GemBlock10"
+      }
+    },
+    "facing=south,on=true,variant=onyx": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock11",
+        "side": "silentgems:blocks/GemBlock11",
+        "top": "silentgems:blocks/GemBlock11"
+      }
+    },
+    "facing=south,on=false,variant=ruby": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock0",
+        "side": "silentgems:blocks/GemBlock0",
+        "top": "silentgems:blocks/GemBlock0"
+      }
+    },
+    "facing=south,on=false,variant=garnet": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock1",
+        "side": "silentgems:blocks/GemBlock1",
+        "top": "silentgems:blocks/GemBlock1"
+      }
+    },
+    "facing=south,on=false,variant=topaz": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock2",
+        "side": "silentgems:blocks/GemBlock2",
+        "top": "silentgems:blocks/GemBlock2"
+      }
+    },
+    "facing=south,on=false,variant=heliodor": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock3",
+        "side": "silentgems:blocks/GemBlock3",
+        "top": "silentgems:blocks/GemBlock3"
+      }
+    },
+    "facing=south,on=false,variant=peridot": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock4",
+        "side": "silentgems:blocks/GemBlock4",
+        "top": "silentgems:blocks/GemBlock4"
+      }
+    },
+    "facing=south,on=false,variant=beryl": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock5",
+        "side": "silentgems:blocks/GemBlock5",
+        "top": "silentgems:blocks/GemBlock5"
+      }
+    },
+    "facing=south,on=false,variant=aquamarine": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock6",
+        "side": "silentgems:blocks/GemBlock6",
+        "top": "silentgems:blocks/GemBlock6"
+      }
+    },
+    "facing=south,on=false,variant=sapphire": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock7",
+        "side": "silentgems:blocks/GemBlock7",
+        "top": "silentgems:blocks/GemBlock7"
+      }
+    },
+    "facing=south,on=false,variant=iolite": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock8",
+        "side": "silentgems:blocks/GemBlock8",
+        "top": "silentgems:blocks/GemBlock8"
+      }
+    },
+    "facing=south,on=false,variant=amethyst": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock9",
+        "side": "silentgems:blocks/GemBlock9",
+        "top": "silentgems:blocks/GemBlock9"
+      }
+    },
+    "facing=south,on=false,variant=morganite": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock10",
+        "side": "silentgems:blocks/GemBlock10",
+        "top": "silentgems:blocks/GemBlock10"
+      }
+    },
+    "facing=south,on=false,variant=onyx": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock11",
+        "side": "silentgems:blocks/GemBlock11",
+        "top": "silentgems:blocks/GemBlock11"
+      }
+    },
+    "facing=west,on=true,variant=ruby": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock0",
+        "side": "silentgems:blocks/GemBlock0",
+        "top": "silentgems:blocks/GemBlock0"
+      }
+    },
+    "facing=west,on=true,variant=garnet": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock1",
+        "side": "silentgems:blocks/GemBlock1",
+        "top": "silentgems:blocks/GemBlock1"
+      }
+    },
+    "facing=west,on=true,variant=topaz": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock2",
+        "side": "silentgems:blocks/GemBlock2",
+        "top": "silentgems:blocks/GemBlock2"
+      }
+    },
+    "facing=west,on=true,variant=heliodor": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock3",
+        "side": "silentgems:blocks/GemBlock3",
+        "top": "silentgems:blocks/GemBlock3"
+      }
+    },
+    "facing=west,on=true,variant=peridot": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock4",
+        "side": "silentgems:blocks/GemBlock4",
+        "top": "silentgems:blocks/GemBlock4"
+      }
+    },
+    "facing=west,on=true,variant=beryl": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock5",
+        "side": "silentgems:blocks/GemBlock5",
+        "top": "silentgems:blocks/GemBlock5"
+      }
+    },
+    "facing=west,on=true,variant=aquamarine": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock6",
+        "side": "silentgems:blocks/GemBlock6",
+        "top": "silentgems:blocks/GemBlock6"
+      }
+    },
+    "facing=west,on=true,variant=sapphire": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock7",
+        "side": "silentgems:blocks/GemBlock7",
+        "top": "silentgems:blocks/GemBlock7"
+      }
+    },
+    "facing=west,on=true,variant=iolite": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock8",
+        "side": "silentgems:blocks/GemBlock8",
+        "top": "silentgems:blocks/GemBlock8"
+      }
+    },
+    "facing=west,on=true,variant=amethyst": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock9",
+        "side": "silentgems:blocks/GemBlock9",
+        "top": "silentgems:blocks/GemBlock9"
+      }
+    },
+    "facing=west,on=true,variant=morganite": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock10",
+        "side": "silentgems:blocks/GemBlock10",
+        "top": "silentgems:blocks/GemBlock10"
+      }
+    },
+    "facing=west,on=true,variant=onyx": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock11",
+        "side": "silentgems:blocks/GemBlock11",
+        "top": "silentgems:blocks/GemBlock11"
+      }
+    },
+    "facing=west,on=false,variant=ruby": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock0",
+        "side": "silentgems:blocks/GemBlock0",
+        "top": "silentgems:blocks/GemBlock0"
+      }
+    },
+    "facing=west,on=false,variant=garnet": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock1",
+        "side": "silentgems:blocks/GemBlock1",
+        "top": "silentgems:blocks/GemBlock1"
+      }
+    },
+    "facing=west,on=false,variant=topaz": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock2",
+        "side": "silentgems:blocks/GemBlock2",
+        "top": "silentgems:blocks/GemBlock2"
+      }
+    },
+    "facing=west,on=false,variant=heliodor": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock3",
+        "side": "silentgems:blocks/GemBlock3",
+        "top": "silentgems:blocks/GemBlock3"
+      }
+    },
+    "facing=west,on=false,variant=peridot": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock4",
+        "side": "silentgems:blocks/GemBlock4",
+        "top": "silentgems:blocks/GemBlock4"
+      }
+    },
+    "facing=west,on=false,variant=beryl": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock5",
+        "side": "silentgems:blocks/GemBlock5",
+        "top": "silentgems:blocks/GemBlock5"
+      }
+    },
+    "facing=west,on=false,variant=aquamarine": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock6",
+        "side": "silentgems:blocks/GemBlock6",
+        "top": "silentgems:blocks/GemBlock6"
+      }
+    },
+    "facing=west,on=false,variant=sapphire": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock7",
+        "side": "silentgems:blocks/GemBlock7",
+        "top": "silentgems:blocks/GemBlock7"
+      }
+    },
+    "facing=west,on=false,variant=iolite": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock8",
+        "side": "silentgems:blocks/GemBlock8",
+        "top": "silentgems:blocks/GemBlock8"
+      }
+    },
+    "facing=west,on=false,variant=amethyst": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock9",
+        "side": "silentgems:blocks/GemBlock9",
+        "top": "silentgems:blocks/GemBlock9"
+      }
+    },
+    "facing=west,on=false,variant=morganite": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock10",
+        "side": "silentgems:blocks/GemBlock10",
+        "top": "silentgems:blocks/GemBlock10"
+      }
+    },
+    "facing=west,on=false,variant=onyx": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock11",
+        "side": "silentgems:blocks/GemBlock11",
+        "top": "silentgems:blocks/GemBlock11"
+      }
+    },
+    "facing=east,on=true,variant=ruby": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock0",
+        "side": "silentgems:blocks/GemBlock0",
+        "top": "silentgems:blocks/GemBlock0"
+      }
+    },
+    "facing=east,on=true,variant=garnet": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock1",
+        "side": "silentgems:blocks/GemBlock1",
+        "top": "silentgems:blocks/GemBlock1"
+      }
+    },
+    "facing=east,on=true,variant=topaz": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock2",
+        "side": "silentgems:blocks/GemBlock2",
+        "top": "silentgems:blocks/GemBlock2"
+      }
+    },
+    "facing=east,on=true,variant=heliodor": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock3",
+        "side": "silentgems:blocks/GemBlock3",
+        "top": "silentgems:blocks/GemBlock3"
+      }
+    },
+    "facing=east,on=true,variant=peridot": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock4",
+        "side": "silentgems:blocks/GemBlock4",
+        "top": "silentgems:blocks/GemBlock4"
+      }
+    },
+    "facing=east,on=true,variant=beryl": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock5",
+        "side": "silentgems:blocks/GemBlock5",
+        "top": "silentgems:blocks/GemBlock5"
+      }
+    },
+    "facing=east,on=true,variant=aquamarine": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock6",
+        "side": "silentgems:blocks/GemBlock6",
+        "top": "silentgems:blocks/GemBlock6"
+      }
+    },
+    "facing=east,on=true,variant=sapphire": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock7",
+        "side": "silentgems:blocks/GemBlock7",
+        "top": "silentgems:blocks/GemBlock7"
+      }
+    },
+    "facing=east,on=true,variant=iolite": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock8",
+        "side": "silentgems:blocks/GemBlock8",
+        "top": "silentgems:blocks/GemBlock8"
+      }
+    },
+    "facing=east,on=true,variant=amethyst": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock9",
+        "side": "silentgems:blocks/GemBlock9",
+        "top": "silentgems:blocks/GemBlock9"
+      }
+    },
+    "facing=east,on=true,variant=morganite": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock10",
+        "side": "silentgems:blocks/GemBlock10",
+        "top": "silentgems:blocks/GemBlock10"
+      }
+    },
+    "facing=east,on=true,variant=onyx": {
+      "textures":{
+        "front": "gemulation:blocks/OnFurnaceGemBlock11",
+        "side": "silentgems:blocks/GemBlock11",
+        "top": "silentgems:blocks/GemBlock11"
+      }
+    },
+    "facing=east,on=false,variant=ruby": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock0",
+        "side": "silentgems:blocks/GemBlock0",
+        "top": "silentgems:blocks/GemBlock0"
+      }
+    },
+    "facing=east,on=false,variant=garnet": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock1",
+        "side": "silentgems:blocks/GemBlock1",
+        "top": "silentgems:blocks/GemBlock1"
+      }
+    },
+    "facing=east,on=false,variant=topaz": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock2",
+        "side": "silentgems:blocks/GemBlock2",
+        "top": "silentgems:blocks/GemBlock2"
+      }
+    },
+    "facing=east,on=false,variant=heliodor": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock3",
+        "side": "silentgems:blocks/GemBlock3",
+        "top": "silentgems:blocks/GemBlock3"
+      }
+    },
+    "facing=east,on=false,variant=peridot": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock4",
+        "side": "silentgems:blocks/GemBlock4",
+        "top": "silentgems:blocks/GemBlock4"
+      }
+    },
+    "facing=east,on=false,variant=beryl": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock5",
+        "side": "silentgems:blocks/GemBlock5",
+        "top": "silentgems:blocks/GemBlock5"
+      }
+    },
+    "facing=east,on=false,variant=aquamarine": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock6",
+        "side": "silentgems:blocks/GemBlock6",
+        "top": "silentgems:blocks/GemBlock6"
+      }
+    },
+    "facing=east,on=false,variant=sapphire": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock7",
+        "side": "silentgems:blocks/GemBlock7",
+        "top": "silentgems:blocks/GemBlock7"
+      }
+    },
+    "facing=east,on=false,variant=iolite": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock8",
+        "side": "silentgems:blocks/GemBlock8",
+        "top": "silentgems:blocks/GemBlock8"
+      }
+    },
+    "facing=east,on=false,variant=amethyst": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock9",
+        "side": "silentgems:blocks/GemBlock9",
+        "top": "silentgems:blocks/GemBlock9"
+      }
+    },
+    "facing=east,on=false,variant=morganite": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock10",
+        "side": "silentgems:blocks/GemBlock10",
+        "top": "silentgems:blocks/GemBlock10"
+      }
+    },
+    "facing=east,on=false,variant=onyx": {
+      "textures":{
+        "front": "gemulation:blocks/FurnaceGemBlock11",
+        "side": "silentgems:blocks/GemBlock11",
+        "top": "silentgems:blocks/GemBlock11"
       }
     }
   }
