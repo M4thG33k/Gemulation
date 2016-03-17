@@ -13,11 +13,24 @@ public class TileGemFurnace extends TileEntity{
     private EnumFacing facing;
     private boolean isOn;
 
+    public TileGemFurnace()
+    {
+        this(0);
+    }
+
     public TileGemFurnace(int m)
     {
         super();
         meta = m;
         facing = EnumFacing.NORTH;
+        System.out.print("Setting to default on");
+        if (worldObj.isRemote)
+        {
+            System.out.print("Client\n");
+        }
+        else{
+            System.out.print("Server\n");
+        }
         isOn = false;
     }
 
@@ -35,7 +48,6 @@ public class TileGemFurnace extends TileEntity{
     {
         worldObj.markBlockForUpdate(pos);
         markDirty();
-//        worldObj.checkLight(pos);
         isOn = !isOn;
         return isOn;
     }

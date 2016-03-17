@@ -25,7 +25,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 
 import java.util.List;
 
-public class GemFurnaceBlock extends BaseBlock implements ITileEntityProvider{
+public class GemFurnaceBlock extends BaseBlock{
 
     public static final PropertyEnum<EnumGem> VARIANT = PropertyEnum.create("variant", EnumGem.class);
     public static final PropertyBool ON = PropertyBool.create("on");
@@ -90,9 +90,19 @@ public class GemFurnaceBlock extends BaseBlock implements ITileEntityProvider{
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileGemFurnace(meta);
+    public boolean hasTileEntity(IBlockState state) {
+        return true;
     }
+
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
+        return new TileGemFurnace(this.getMetaFromState(state));
+    }
+
+//    @Override
+//    public TileEntity createNewTileEntity(World worldIn, int meta) {
+//        return new TileGemFurnace(meta);
+//    }
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
