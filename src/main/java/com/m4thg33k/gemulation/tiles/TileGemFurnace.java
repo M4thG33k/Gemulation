@@ -1,27 +1,43 @@
 package com.m4thg33k.gemulation.tiles;
 
+import com.m4thg33k.gemulation.block.GemFurnaceBlock;
+import com.m4thg33k.gemulation.core.util.LogHelper;
 import com.m4thg33k.gemulation.lib.Names;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.*;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class TileGemFurnace extends TileEntity implements IInventory{
+public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
 
+    //slot 0 is for fuel, 1 for input, 2 for output (more to come)
     private ItemStack[] inventory;
     private String customName;
     private int meta;
     private EnumFacing facing;
     private boolean isOn;
+
+    private int burnTime;
+    private int currentItemBurnTime;
+    private int cookTime;
+    private int totalCookTime;
+
+    private double cookTimeFactor = 1.0;
+    private int upgradeCount = 0;
+    private double fuelBooster = 1.0;
+
 
     public TileGemFurnace()
     {
@@ -80,6 +96,15 @@ public class TileGemFurnace extends TileEntity implements IInventory{
         {
             setCustomName(compound.getString("CustomName"));
         }
+
+        burnTime = compound.getInteger("burnTime");
+        currentItemBurnTime = compound.getInteger("currentItemBurnTime");
+        cookTime = compound.getInteger("cookTime");
+        totalCookTime = compound.getInteger("totalCookTime");
+
+        cookTimeFactor = compound.getDouble("cookTimeFactor");
+        upgradeCount = compound.getInteger("upgradeCount");
+        fuelBooster = compound.getDouble("fuelBooster");
     }
 
     @Override
@@ -105,21 +130,32 @@ public class TileGemFurnace extends TileEntity implements IInventory{
         {
             compound.setString("CustomName",getCustomName());
         }
+
+        compound.setInteger("burnTime",burnTime);
+        compound.setInteger("currentItemBurnTime",currentItemBurnTime);
+        compound.setInteger("cookTime",cookTime);
+        compound.setInteger("totalCookTime",totalCookTime);
+
+        compound.setDouble("cookTimeFactor",cookTimeFactor);
+        compound.setInteger("upgradeCount",upgradeCount);
+        compound.setDouble("fuelBooster",fuelBooster);
     }
 
     @Override
     public Packet getDescriptionPacket() {
         NBTTagCompound tagCompound = new NBTTagCompound();
-        tagCompound.setBoolean("on",isOn);
-        tagCompound.setInteger("facing",facing.ordinal());
+        writeToNBT(tagCompound);
+//        tagCompound.setBoolean("on",isOn);
+//        tagCompound.setInteger("facing",facing.ordinal());
         return new S35PacketUpdateTileEntity(pos,1,tagCompound);
     }
 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         NBTTagCompound tagCompound = pkt.getNbtCompound();
-        isOn = tagCompound.getBoolean("on");
-        facing = EnumFacing.VALUES[tagCompound.getInteger("facing")];
+//        isOn = tagCompound.getBoolean("on");
+//        facing = EnumFacing.VALUES[tagCompound.getInteger("facing")];
+        readFromNBT(tagCompound);
     }
 
     public String getCustomName()
@@ -136,7 +172,7 @@ public class TileGemFurnace extends TileEntity implements IInventory{
 
     @Override
     public int getSizeInventory() {
-        return 3; //// TODO: 3/17/2016 make dependent on variant
+        return 3;
     }
 
     @Override
@@ -193,22 +229,20 @@ public class TileGemFurnace extends TileEntity implements IInventory{
 
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
-        if (index<0 || index>=getSizeInventory())
-        {
-            return;
-        }
-
-        if (stack != null && stack.stackSize>getInventoryStackLimit())
-        {
-            stack.stackSize = this.getInventoryStackLimit();
-        }
-        if (stack != null && stack.stackSize==0)
-        {
-            stack = null;
-        }
-
+        boolean flag = stack!=null && stack.isItemEqual(inventory[index]) && ItemStack.areItemStackTagsEqual(stack,inventory[index]);
         inventory[index] = stack;
-        markDirty();
+
+        if (stack != null && stack.stackSize > getInventoryStackLimit())
+        {
+            stack.stackSize = getInventoryStackLimit();
+        }
+
+        if (index==1 && !flag)
+        {
+            totalCookTime = getCookTime(stack);
+            cookTime = 0;
+            markDirty();
+        }
     }
 
     @Override
@@ -233,7 +267,15 @@ public class TileGemFurnace extends TileEntity implements IInventory{
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
-        return true;
+        switch (index)
+        {
+            case 0: //fuel
+                return isItemFuel(stack);
+            case 1: //has a furnace recipe
+                return hasFurnaceRecipe(stack);
+            default:
+                return false;
+        }
     }
 
     @Override
@@ -272,5 +314,157 @@ public class TileGemFurnace extends TileEntity implements IInventory{
     @Override
     public IChatComponent getDisplayName() {
         return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName());
+    }
+
+    public boolean isBurning()
+    {
+        return burnTime>0;
+    }
+
+    @Override
+    public void update() {
+        boolean on = isBurning();
+        boolean isDirty = false;
+
+        if (isBurning())
+        {
+            --burnTime;
+        }
+
+
+
+        if (!worldObj.isRemote)
+        {
+            if (isBurning() || inventory[0] != null && inventory[1] !=null)
+            {
+                if (!isBurning() && canSmelt())
+                {
+                    currentItemBurnTime = burnTime = getItemBurnTime(inventory[0]);
+
+                    if (isBurning())
+                    {
+                        isDirty = true;
+
+                        if (inventory[0] != null)
+                        {
+                            inventory[0].stackSize--;
+                            if (inventory[0].stackSize==0)
+                            {
+                                inventory[0] = inventory[0].getItem().getContainerItem(inventory[0]);
+                            }
+                        }
+                    }
+                }
+
+                if (isBurning() && canSmelt())
+                {
+                    cookTime++;
+
+                    if (cookTime == totalCookTime)
+                    {
+                        cookTime = 0;
+                        totalCookTime = getCookTime(inventory[1]);
+                        smeltItem();
+                        isDirty = true;
+                    }
+                }
+                else
+                {
+                    cookTime = 0;
+                }
+            }
+            else if (!isBurning() && cookTime>0)
+            {
+                cookTime = MathHelper.clamp_int(cookTime-2,0,totalCookTime);
+            }
+
+            if (on != isBurning())
+            {
+                isDirty = true;
+                toggleOn();
+            }
+        }
+
+        if (isDirty)
+        {
+            markDirty();
+        }
+    }
+
+    public int getCookTime(ItemStack stack)
+    {
+        return (int)(Math.floor(200*cookTimeFactor));
+    }
+
+    /**
+     * Returns the number of ticks that the supplied fuel will keep the furnace burning (including fuelBoost) or 0 if
+     * the item is not fuel
+     */
+    public int getItemBurnTime(ItemStack stack)
+    {
+        if (stack==null)
+        {
+            return 0;
+        }
+
+        return (int)Math.ceil(TileEntityFurnace.getItemBurnTime(stack)*fuelBooster);
+    }
+
+    public boolean isItemFuel(ItemStack stack)
+    {
+        return getItemBurnTime(stack)>0;
+    }
+
+    public boolean hasFurnaceRecipe(ItemStack stack)
+    {
+        return FurnaceRecipes.instance().getSmeltingResult(stack)!=null;
+    }
+
+    private boolean canSmelt()
+    {
+        if (inventory[1]==null || !hasFurnaceRecipe(inventory[1])) //anything in input that can be smelted?
+        {
+            return false;
+        }
+        if (inventory[2]==null)
+        {
+            return true;
+        }
+        ItemStack output = FurnaceRecipes.instance().getSmeltingResult(inventory[1]);
+        if (!inventory[2].isItemEqual(output))
+        {
+            return false;
+        }
+        int result = inventory[2].stackSize+output.stackSize;
+        return result<=getInventoryStackLimit() && result<=inventory[2].getMaxStackSize();
+    }
+
+    public void smeltItem()
+    {
+        if (canSmelt())
+        {
+            ItemStack stack = FurnaceRecipes.instance().getSmeltingResult(inventory[1]);
+
+            if (inventory[2] == null)
+            {
+                inventory[2] = stack.copy();
+            }
+            else if (inventory[2].getItem() == stack.getItem())
+            {
+                inventory[2].stackSize += stack.stackSize;
+            }
+
+            if (inventory[1].getItem() == Item.getItemFromBlock(Blocks.sponge) && inventory[1].getMetadata()==1 && inventory[0] != null && inventory[0].getItem() == Items.bucket)
+            {
+                inventory[0] = new ItemStack(Items.water_bucket);
+            }
+
+            inventory[1].stackSize--;
+
+            if (inventory[1].stackSize<=0)
+            {
+                inventory[1] = null;
+            }
+        }
     }
 }

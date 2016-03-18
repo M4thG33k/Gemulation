@@ -1,6 +1,9 @@
 package com.m4thg33k.gemulation.block;
 
+import com.m4thg33k.gemulation.Gemulation;
 import com.m4thg33k.gemulation.api.GemulationStateProps;
+import com.m4thg33k.gemulation.core.util.LogHelper;
+import com.m4thg33k.gemulation.gui.GemulationGuiHandler;
 import com.m4thg33k.gemulation.lib.Names;
 import com.m4thg33k.gemulation.tiles.TileGemFurnace;
 import net.minecraft.block.material.Material;
@@ -60,12 +63,13 @@ public class GemFurnaceBlock extends BaseBlock{
 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity==null || !(tileEntity instanceof TileGemFurnace))
-        {
-            return state;
-        }
-        return state.withProperty(ON,((TileGemFurnace) tileEntity).getOn()).withProperty(GemulationStateProps.CARDINALS,((TileGemFurnace) tileEntity).getFacing());
+        TileGemFurnace tileEntity = (TileGemFurnace)worldIn.getTileEntity(pos);
+//        if (tileEntity==null || !(tileEntity instanceof TileGemFurnace))
+//        {
+//            return state;
+//        }
+        //return state.withProperty(ON,true).withProperty(GemulationStateProps.CARDINALS,((TileGemFurnace) tileEntity).getFacing());
+        return state.withProperty(ON,(tileEntity).getOn()).withProperty(GemulationStateProps.CARDINALS,(tileEntity).getFacing());
     }
 
     @Override
@@ -106,10 +110,10 @@ public class GemFurnaceBlock extends BaseBlock{
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity != null && tileEntity instanceof TileGemFurnace)
+        if (!worldIn.isRemote)
         {
-            ((TileGemFurnace) tileEntity).toggleOn();
+            playerIn.openGui(Gemulation.instance, GemulationGuiHandler.GEM_FURNACE_GUI,worldIn,pos.getX(),pos.getY(),pos.getZ());
+//            ((TileGemFurnace)worldIn.getTileEntity(pos)).toggleOn();
         }
         return true;
     }
