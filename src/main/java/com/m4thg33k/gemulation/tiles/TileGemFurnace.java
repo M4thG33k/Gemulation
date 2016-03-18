@@ -3,6 +3,8 @@ package com.m4thg33k.gemulation.tiles;
 import com.m4thg33k.gemulation.block.GemFurnaceBlock;
 import com.m4thg33k.gemulation.core.util.LogHelper;
 import com.m4thg33k.gemulation.lib.Names;
+import com.m4thg33k.gemulation.network.packets.GemulationPackets;
+import com.m4thg33k.gemulation.network.packets.PacketNBT;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -18,7 +20,13 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.*;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.silentchaos512.gems.core.util.ToolHelper;
+import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.material.ModMaterials;
 
 public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
 
@@ -29,10 +37,10 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
     private EnumFacing facing;
     private boolean isOn;
 
-    private int burnTime;
-    private int currentItemBurnTime;
-    private int cookTime;
-    private int totalCookTime;
+    public int burnTime;
+    public int currentItemBurnTime;
+    public int cookTime;
+    public int totalCookTime;
 
     private double cookTimeFactor = 1.0;
     private int upgradeCount = 0;
@@ -51,6 +59,9 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         facing = EnumFacing.NORTH;
         isOn = false;
         inventory = new ItemStack[this.getSizeInventory()];
+
+        Item.ToolMaterial material = EnumGem.get(meta).getToolMaterial(false);
+        cookTimeFactor = -(1.0/8.0)*material.getEfficiencyOnProperMaterial()+2.0;
     }
 
     public void setFacing(EnumFacing f)
@@ -280,17 +291,43 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
 
     @Override
     public int getField(int id) {
-        return 0;
+        switch (id)
+        {
+            case 0:
+                return burnTime;
+            case 1:
+                return currentItemBurnTime;
+            case 2:
+                LogHelper.info("Cook time: " + cookTime);
+                return cookTime;
+            case 3:
+                return totalCookTime;
+            default:
+                return 0;
+        }
     }
 
     @Override
     public void setField(int id, int value) {
-
+        switch (id)
+        {
+            case 0:
+                burnTime = value;
+                break;
+            case 1:
+                currentItemBurnTime = value;
+                break;
+            case 2:
+                cookTime = value;
+                break;
+            case 3:
+                totalCookTime = value;
+        }
     }
 
     @Override
     public int getFieldCount() {
-        return 0;
+        return 4;
     }
 
     @Override
@@ -319,6 +356,12 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
     public boolean isBurning()
     {
         return burnTime>0;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static boolean isBurning(IInventory inv)
+    {
+        return inv.getField(0)>0;
     }
 
     @Override
@@ -381,13 +424,19 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
             if (on != isBurning())
             {
                 isDirty = true;
-                toggleOn();
+                isOn = isBurning();
+//                NBTTagCompound tag = new NBTTagCompound();
+//                writeToNBT(tag);
+//                GemulationPackets.INSTANCE.sendToAllAround(new PacketNBT(pos,tag),new NetworkRegistry.TargetPoint(worldObj.provider.getDimensionId(),pos.getX(),pos.getY(),pos.getZ(),32));
             }
         }
 
         if (isDirty)
         {
             markDirty();
+            NBTTagCompound tag = new NBTTagCompound();
+            writeToNBT(tag);
+            GemulationPackets.INSTANCE.sendToAllAround(new PacketNBT(pos,tag),new NetworkRegistry.TargetPoint(worldObj.provider.getDimensionId(),pos.getX(),pos.getY(),pos.getZ(),32));
         }
     }
 
@@ -467,4 +516,6 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
             }
         }
     }
+
+
 }

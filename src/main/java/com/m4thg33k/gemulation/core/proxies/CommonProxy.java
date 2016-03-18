@@ -4,6 +4,8 @@ import com.m4thg33k.gemulation.Gemulation;
 import com.m4thg33k.gemulation.block.ModBlocks;
 import com.m4thg33k.gemulation.client.render.item.ItemRenderRegister;
 import com.m4thg33k.gemulation.gui.GemulationGuiHandler;
+import com.m4thg33k.gemulation.network.packets.GemulationPackets;
+import com.m4thg33k.gemulation.network.packets.PacketNBT;
 import com.m4thg33k.gemulation.tiles.ModTiles;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -14,6 +16,7 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent e)
     {
+        GemulationPackets.init();
         ModBlocks.createBlocks();
     }
 
@@ -24,6 +27,11 @@ public class CommonProxy {
     }
 
     public void postInit(FMLPostInitializationEvent e)
+    {
+
+    }
+
+    public void handleNBTPacket(PacketNBT message)
     {
 
     }

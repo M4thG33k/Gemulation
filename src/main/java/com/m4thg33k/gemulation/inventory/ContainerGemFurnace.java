@@ -3,25 +3,30 @@ package com.m4thg33k.gemulation.inventory;
 import com.m4thg33k.gemulation.tiles.TileGemFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class ContainerGemFurnace extends Container {
+public class ContainerGemFurnace extends Container{
 
     private TileGemFurnace te;
+    public int burnTime;
+    public int totalBurnTime;
+    public int cookTime;
+    public int totalItemCookTime;
+    public ItemStack outputStack;
 
     public ContainerGemFurnace(IInventory playerInventory, TileGemFurnace tileGemFurnace)
     {
         te = tileGemFurnace;
 
         //te inventory
-        this.addSlotToContainer(new Slot(te,0,62,17));
-        this.addSlotToContainer(new Slot(te,1,80,17));
-        this.addSlotToContainer(new NoInputSlot(te,2,98,17));
+        this.addSlotToContainer(new Slot(te,0,53,48));
+        this.addSlotToContainer(new Slot(te,1,53,12));
+        this.addSlotToContainer(new NoInputSlot(te,2,107,30));
 //        for (int y=0;y<te.getSizeInventory();y++)
 //        {
 //            this.addSlotToContainer(new Slot(te,y,62,17+y*18));
@@ -121,4 +126,77 @@ public class ContainerGemFurnace extends Container {
         }
         return previous;
     }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+
+        for (int i=0;i<this.crafters.size();i++)
+        {
+            ICrafting iCrafting = this.crafters.get(i);
+
+            if ((this.te.cookTime != this.cookTime) || (ItemStack.areItemStacksEqual(outputStack,this.te.getStackInSlot(2))))
+            {
+                iCrafting.sendProgressBarUpdate(this,0,this.te.cookTime);
+            }
+
+            if (this.te.totalCookTime != this.totalItemCookTime)
+            {
+                iCrafting.sendProgressBarUpdate(this,1,this.te.totalCookTime);
+            }
+
+            if (this.te.burnTime != this.burnTime)
+            {
+                iCrafting.sendProgressBarUpdate(this,2,this.te.burnTime);
+            }
+
+            if (this.te.currentItemBurnTime != this.totalBurnTime)
+            {
+                iCrafting.sendProgressBarUpdate(this,3,this.te.currentItemBurnTime);
+            }
+        }
+
+        this.cookTime = te.cookTime;
+        this.totalItemCookTime = te.totalCookTime;
+        this.burnTime = te.burnTime;
+        this.totalBurnTime = te.currentItemBurnTime;
+        if (te.getStackInSlot(2)==null)
+        {
+            this.outputStack = null;
+        }
+        else{
+            this.outputStack = te.getStackInSlot(2).copy();
+        }
+    }
+
+    @Override
+    public void onCraftGuiOpened(ICrafting iCrafting) {
+        super.onCraftGuiOpened(iCrafting);
+
+        iCrafting.sendProgressBarUpdate(this,0,cookTime);
+        iCrafting.sendProgressBarUpdate(this,1,totalItemCookTime);
+        iCrafting.sendProgressBarUpdate(this,2,burnTime);
+        iCrafting.sendProgressBarUpdate(this,3,totalBurnTime);
+    }
+
+    @Override
+    public void updateProgressBar(int id, int data) {
+        switch(id)
+        {
+            case 0:
+                cookTime = data;
+                break;
+            case 1:
+                totalItemCookTime = data;
+                break;
+            case 2:
+                burnTime = data;
+                break;
+            case 3:
+                totalBurnTime = data;
+                break;
+            default:
+        }
+    }
+
 }
