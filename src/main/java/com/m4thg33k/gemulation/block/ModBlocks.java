@@ -9,10 +9,12 @@ public class ModBlocks {
 
     public static Block gemFurnaceBlock;
     public static Block improvedFurnaceBlock;
+    public static Block gemChangerBlock;
 
     public static void createBlocks()
     {
         GameRegistry.registerBlock(gemFurnaceBlock = new GemFurnaceBlock(), GemFurnaceItemBlock.class, Names.GEM_FURNACE);
         GameRegistry.registerBlock(improvedFurnaceBlock = new ImprovedFurnaceBlock(), Names.IMPROVED_FURNACE);
+        GameRegistry.registerBlock(gemChangerBlock = new GemChangerBlock(), Names.GEM_CHANGER);
     }
 }
