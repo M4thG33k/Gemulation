@@ -18,6 +18,5 @@ public class GemulationJEIPlugin extends BlankModPlugin{
     @Override
     public void register(@Nonnull IModRegistry registry) {
         jeiHelpers = registry.getJeiHelpers();
-        LogHelper.info("JEI STUFFZ!!!");
     }
 }

@@ -84,7 +84,7 @@ public class ItemFurnaceUpgrade extends Item {
                 break;
             case 2:
                 list.add("Increases the storage capacity");
-                list.add("of the furnace by a factor of " + Constants.SPEED_MULT);
+                list.add("of the furnace by a factor of " + Constants.CAP_MULT);
                 break;
             default:
         }
