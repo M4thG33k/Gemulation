@@ -46,6 +46,8 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
 
 
 
+
+
     public TileGemFurnace()
     {
         this(0);
