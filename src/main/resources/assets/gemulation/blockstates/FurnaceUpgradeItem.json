@@ -1,0 +1,27 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "gemulation:FurnaceUpgradeItem",
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "meta=0":
+    [{
+      "textures": {
+        "layer0":"gemulation:items/FurnaceUpgradeItem_Speed"
+      }
+    }],
+    "meta=1":
+    [{
+      "textures": {
+        "layer0":"gemulation:items/FurnaceUpgradeItem_Fuel"
+      }
+    }],
+    "meta=2":
+    [{
+      "textures": {
+        "layer0":"gemulation:items/FurnaceUpgradeItem_Capacity"
+      }
+    }]
+  }
+}

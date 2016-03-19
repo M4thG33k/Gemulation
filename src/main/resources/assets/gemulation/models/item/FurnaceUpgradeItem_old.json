@@ -1,0 +1,6 @@
+{
+  "parent": "gemulation:item/standard_item",
+  "textures": {
+    "layer0":"gemulation:items/FurnaceUpgradeItem_Speed"
+  }
+}

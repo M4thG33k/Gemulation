@@ -22,6 +22,9 @@ public class ItemRenderRegister {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.improvedFurnaceBlock),0,new ModelResourceLocation(Gemulation.MODID+":"+Names.IMPROVED_FURNACE,"facing=north,on=false"));
 
         //items
-        ModelLoader.setCustomModelResourceLocation(ModItems.itemFurnaceUpgrade,0,new ModelResourceLocation(Gemulation.MODID+":"+Names.FURNACE_UPGRADE,"inventory"));
+        for (int i=0;i<3;i++)
+        {
+            ModelLoader.setCustomModelResourceLocation(ModItems.itemFurnaceUpgrade,i,new ModelResourceLocation(Gemulation.MODID+":"+Names.FURNACE_UPGRADE,"meta="+i));
+        }
     }
 }

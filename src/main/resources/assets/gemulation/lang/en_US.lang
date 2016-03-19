@@ -1,8 +1,9 @@
 # Creative Tabs
 
 itemGroup.tabGemulation=Gemulation
-
+#-------------------------------------------------------------------
 # Blocks
+#-------------------------------------------------------------------
 tile.GemFurnaceBlock_0.name=Ruby Furnace
 tile.GemFurnaceBlock_1.name=Garnet Furnace
 tile.GemFurnaceBlock_2.name=Topaz Furnace
@@ -17,3 +18,9 @@ tile.GemFurnaceBlock_10.name=Morganite Furnace
 tile.GemFurnaceBlock_11.name=Onyx Furnace
 
 tile.ImprovedFurnaceBlock.name=Improved Furnace
+#-------------------------------------------------------------------
+# Items
+#-------------------------------------------------------------------
+item.FurnaceUpgradeItem_0.name=Processing Upgrade
+item.FurnaceUpgradeItem_1.name=Fuel Boost Upgrade
+item.FurnaceUpgradeItem_2.name=Capacity Upgrade

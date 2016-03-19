@@ -1,9 +1,11 @@
 package com.m4thg33k.gemulation.tiles;
 
 import com.m4thg33k.gemulation.core.util.LogHelper;
+import com.m4thg33k.gemulation.lib.Constants;
 import com.m4thg33k.gemulation.lib.Names;
 import com.m4thg33k.gemulation.network.packets.GemulationPackets;
 import com.m4thg33k.gemulation.network.packets.PacketNBT;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -19,6 +21,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.*;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -76,10 +79,10 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
             customName = EnumGem.get(meta).name + " Furnace";
 
             Item.ToolMaterial material = EnumGem.get(meta).getToolMaterial(false);
-            cookTimeFactor = -(1.0/8.0)*material.getEfficiencyOnProperMaterial()+2.0;
-            fuelBooster = ((1.0/8.0)*material.getDamageVsEntity()+3.0/4.0);
-            upgradeCount = (material.getEnchantability()-8)/2;
-            maxFuel = (int)Math.ceil((400*(material.getMaxUses())-102400)*fuelBooster);
+            cookTimeFactor = Constants.baseCookTime(material);//-(1.0/8.0)*material.getEfficiencyOnProperMaterial()+2.0;
+            fuelBooster = Constants.baseFuelBoost(material);//(1.0/8.0)*material.getDamageVsEntity()+3.0/4.0);
+            upgradeCount = Constants.upgradeCount(material);//material.getEnchantability()-8)/2;
+            maxFuel = Constants.baseMaxFuel(material,fuelBooster);//()int)Math.ceil((400*(material.getMaxUses())-102400)*fuelBooster);
 
             if (upgradeCount>0)
             {
@@ -638,11 +641,22 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
 
     public void installUpgrade(ItemStack stack)
     {
-        upgrades[numUpgradesInstalled] = stack;
+        upgrades[numUpgradesInstalled] = stack.copy();
         numUpgradesInstalled++;
 
-        //temporary
-        cookTimeFactor *= 0.25;
+        switch (stack.getItemDamage())
+        {
+            case 0: //speed upgrade
+                cookTimeFactor *= Constants.SPEED_MULT;
+                break;
+            case 1: //fuel boost upgrade
+                fuelBooster *= Constants.FUEL_MULT;
+                break;
+            case 2: //capacity upgrade
+                maxFuel *= Constants.CAP_MULT;
+                break;
+            default:
+        }
     }
 
     public int getUpgradeCount()
@@ -658,5 +672,25 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
     public int getNumUpgradesInstalled()
     {
         return numUpgradesInstalled;
+    }
+
+    public void dropUpgrades(World world, BlockPos pos)
+    {
+        for (int i=0;i<numUpgradesInstalled;i++)
+        {
+            float f = world.rand.nextFloat() * 0.8f + 0.1f;
+            float f1 = world.rand.nextFloat() * 0.8f + 0.1f;
+            float f2 = world.rand.nextFloat() * 0.8f + 0.1f;
+
+            float f3 = 0.05f;
+
+            EntityItem item = new EntityItem(world, pos.getX()+f,pos.getY()+f1,pos.getZ()+f2,upgrades[i]);
+
+            item.motionX = world.rand.nextGaussian() * (double)f3;
+            item.motionY = world.rand.nextGaussian() * (double)f3 + 0.2;
+            item.motionZ = world.rand.nextGaussian() * (double)f3;
+
+            world.spawnEntityInWorld(item);
+        }
     }
 }

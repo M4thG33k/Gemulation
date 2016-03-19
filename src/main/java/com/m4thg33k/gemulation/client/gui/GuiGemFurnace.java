@@ -112,20 +112,22 @@ public class GuiGemFurnace extends GuiContainer {
         int numInstalled = tileGemFurnace.getNumUpgradesInstalled();
         ItemStack[] upgrades = tileGemFurnace.getUpgrades();
 
-        int i=0;
-        while (i<numInstalled)
-        {
+        mc.getTextureManager().bindTexture(new ResourceLocation(Gemulation.MODID+":textures/gui/"+ Names.GEM_FURNACE + ".png"));
+        for (int i=0; i<num;i++){
             this.drawTexturedModalRect(k+153,l+5+20*i,183,31,18,18);
-            this.itemRender.renderItemAndEffectIntoGUI(upgrades[i],k+154,l+6+20*i);
-            i++;
         }
 
-        mc.getTextureManager().bindTexture(new ResourceLocation(Gemulation.MODID+":textures/gui/"+ Names.GEM_FURNACE + ".png"));
-        while (i<num)
-//        for (int i=0;i<num;i++)
+        for(int i=0;i<numInstalled;i++)
         {
-            this.drawTexturedModalRect(k+153,l+5+20*i,183,31,18,18);
-            i++;
+            this.itemRender.renderItemAndEffectIntoGUI(upgrades[i],k+154,l+6+20*i);
         }
+
+//        mc.getTextureManager().bindTexture(new ResourceLocation(Gemulation.MODID+":textures/gui/"+ Names.GEM_FURNACE + ".png"));
+//        while (i<num)
+////        for (int i=0;i<num;i++)
+//        {
+//            this.drawTexturedModalRect(k+153,l+5+20*i,183,31,18,18);
+//            i++;
+//        }
     }
 }

@@ -122,6 +122,7 @@ public class GemFurnaceBlock extends BaseBlock{
         TileGemFurnace te = (TileGemFurnace)worldIn.getTileEntity(pos);
 
         InventoryHelper.dropInventoryItems(worldIn,pos,te);
+        te.dropUpgrades(worldIn,pos);
         super.breakBlock(worldIn, pos, state);
     }
 
