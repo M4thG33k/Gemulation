@@ -1,6 +1,9 @@
 package com.m4thg33k.gemulation;
 
+import com.m4thg33k.gemulation.block.ModBlocks;
 import com.m4thg33k.gemulation.core.proxies.CommonProxy;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -12,7 +15,7 @@ public class Gemulation {
 
     public static final String MODID = "gemulation";
     public static final String MODNAME = "Gemulation";
-    public static final String VERSION = "1.0.0";
+    public static final String VERSION = "@VERSION@";
 
     @Mod.Instance
     public static Gemulation instance = new Gemulation();
@@ -37,4 +40,11 @@ public class Gemulation {
     {
         proxy.postInit(e);
     }
+
+    public static CreativeTabs tabGemulation = new CreativeTabs("tabGemulation") {
+        @Override
+        public Item getTabIconItem() {
+            return Item.getItemFromBlock(ModBlocks.gemFurnaceBlock);
+        }
+    };
 }

@@ -1,0 +1,17 @@
+# Creative Tabs
+
+itemGroup.tabGemulation=Gemulation
+
+# Blocks
+tile.GemFurnaceBlock_0.name=Ruby Furnace
+tile.GemFurnaceBlock_1.name=Garnet Furnace
+tile.GemFurnaceBlock_2.name=Topaz Furnace
+tile.GemFurnaceBlock_3.name=Heliodor Furnace
+tile.GemFurnaceBlock_4.name=Peridot Furnace
+tile.GemFurnaceBlock_5.name=Beryl Furnace
+tile.GemFurnaceBlock_6.name=Aquamarine Furnace
+tile.GemFurnaceBlock_7.name=Sapphire Furnace
+tile.GemFurnaceBlock_8.name=Iolite Furnace
+tile.GemFurnaceBlock_9.name=Amethyst Furnace
+tile.GemFurnaceBlock_10.name=Morganite Furnace
+tile.GemFurnaceBlock_11.name=Onyx Furnace

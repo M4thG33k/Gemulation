@@ -27,6 +27,9 @@ archivesBaseName = "gemulation"
 minecraft {
     version = "1.8.9-11.15.1.1764"
     runDir = "run"
+
+    replace "@VERSION@", project.version
+    replaceIn "Gemulation.java"
     
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.

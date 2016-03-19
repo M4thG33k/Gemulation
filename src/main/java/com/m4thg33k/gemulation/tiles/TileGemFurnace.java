@@ -1,6 +1,5 @@
 package com.m4thg33k.gemulation.tiles;
 
-import com.m4thg33k.gemulation.block.GemFurnaceBlock;
 import com.m4thg33k.gemulation.core.util.LogHelper;
 import com.m4thg33k.gemulation.lib.Names;
 import com.m4thg33k.gemulation.network.packets.GemulationPackets;
@@ -21,12 +20,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.material.ModMaterials;
 
 public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
 
@@ -41,10 +37,13 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
     public int currentItemBurnTime;
     public int cookTime;
     public int totalCookTime;
+    public int storedFuel;
 
-    private double cookTimeFactor = 1.0;
-    private int upgradeCount = 0;
-    private double fuelBooster = 1.0;
+    private double cookTimeFactor = 1.0; //changes how fast things are cooked (based on efficiency)
+    private int upgradeCount = 0; //how many upgrades the furnace can hold (WIP) (based on enchantability)
+    private double fuelBooster = 1.0; //changes how much fuel you get from each fuel source (based on damage)
+    private int maxFuel = 0; //the maximum amount of fuel you can store (based on durability and damage)
+
 
 
     public TileGemFurnace()
@@ -60,8 +59,18 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         isOn = false;
         inventory = new ItemStack[this.getSizeInventory()];
 
+        customName = EnumGem.get(meta).name + " Furnace";
+
         Item.ToolMaterial material = EnumGem.get(meta).getToolMaterial(false);
         cookTimeFactor = -(1.0/8.0)*material.getEfficiencyOnProperMaterial()+2.0;
+        fuelBooster = ((1.0/8.0)*material.getDamageVsEntity()+3.0/4.0);
+        upgradeCount = (material.getEnchantability()-8)/2;
+        maxFuel = (int)Math.ceil((400*(material.getMaxUses())-102400)*fuelBooster);
+    }
+
+    public int getMaxFuel()
+    {
+        return maxFuel;
     }
 
     public void setFacing(EnumFacing f)
@@ -112,10 +121,12 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         currentItemBurnTime = compound.getInteger("currentItemBurnTime");
         cookTime = compound.getInteger("cookTime");
         totalCookTime = compound.getInteger("totalCookTime");
+        storedFuel = compound.getInteger("storedFuel");
 
         cookTimeFactor = compound.getDouble("cookTimeFactor");
         upgradeCount = compound.getInteger("upgradeCount");
         fuelBooster = compound.getDouble("fuelBooster");
+        maxFuel = compound.getInteger("maxFuel");
     }
 
     @Override
@@ -146,10 +157,12 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         compound.setInteger("currentItemBurnTime",currentItemBurnTime);
         compound.setInteger("cookTime",cookTime);
         compound.setInteger("totalCookTime",totalCookTime);
+        compound.setInteger("storedFuel",storedFuel);
 
         compound.setDouble("cookTimeFactor",cookTimeFactor);
         compound.setInteger("upgradeCount",upgradeCount);
         compound.setDouble("fuelBooster",fuelBooster);
+        compound.setInteger("maxFuel",maxFuel);
     }
 
     @Override
@@ -358,16 +371,42 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         return burnTime>0;
     }
 
+
     @SideOnly(Side.CLIENT)
     public static boolean isBurning(IInventory inv)
     {
         return inv.getField(0)>0;
     }
 
+    public void storeFuel()
+    {
+        if (inventory[0]==null)
+        {
+            return;
+        }
+
+        int fuelToAdd = getItemBurnTime(inventory[0]);
+        if (fuelToAdd==0 || fuelToAdd+storedFuel>maxFuel)
+        {
+            return;
+        }
+
+        storedFuel += fuelToAdd;
+
+        inventory[0].stackSize--;
+        if (inventory[0].stackSize==0)
+        {
+            inventory[0] = inventory[0].getItem().getContainerItem(inventory[0]);
+        }
+
+    }
+
     @Override
     public void update() {
         boolean on = isBurning();
         boolean isDirty = false;
+
+
 
         if (isBurning())
         {
@@ -378,24 +417,17 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
 
         if (!worldObj.isRemote)
         {
-            if (isBurning() || inventory[0] != null && inventory[1] !=null)
+            storeFuel();
+
+            if (isBurning() || inventory[1] !=null && hasEnoughFuel())
             {
                 if (!isBurning() && canSmelt())
                 {
-                    currentItemBurnTime = burnTime = getItemBurnTime(inventory[0]);
-
+                    currentItemBurnTime = burnTime = getCookTime(inventory[1]);
+                    storedFuel -= getCookTime(inventory[1]);
                     if (isBurning())
                     {
                         isDirty = true;
-
-                        if (inventory[0] != null)
-                        {
-                            inventory[0].stackSize--;
-                            if (inventory[0].stackSize==0)
-                            {
-                                inventory[0] = inventory[0].getItem().getContainerItem(inventory[0]);
-                            }
-                        }
                     }
                 }
 
@@ -469,6 +501,19 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         return FurnaceRecipes.instance().getSmeltingResult(stack)!=null;
     }
 
+    public boolean hasEnoughFuel()
+    {
+        if (inventory[1]==null)
+        {
+            return false;
+        }
+        return storedFuel >= getCookTime(inventory[1]);
+    }
+
+    /**
+     * checks if the item in the input slot can be smelted and stack its output in the output slot
+     */
+
     private boolean canSmelt()
     {
         if (inventory[1]==null || !hasFurnaceRecipe(inventory[1])) //anything in input that can be smelted?
@@ -515,6 +560,13 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
                 inventory[1] = null;
             }
         }
+    }
+
+    //returns the largest number of items you can smelt with the currently stored fuel
+    public int getNumSmeltable()
+    {
+//        LogHelper.info(""+storedFuel+","+getCookTime(null)+","+(storedFuel/getCookTime(null)));
+        return (storedFuel/getCookTime(null));
     }
 
 

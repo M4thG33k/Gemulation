@@ -5,6 +5,13 @@
     "transform": "forge:default-block"
   },
   "variants": {
+    "inventory": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375
+        }
+      }
+    }],
     "facing=north,on=true,variant=ruby": [{
       "textures":{
         "front": "gemulation:blocks/OnFurnaceGemBlock0",

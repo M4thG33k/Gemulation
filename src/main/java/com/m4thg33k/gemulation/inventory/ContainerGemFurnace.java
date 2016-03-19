@@ -2,10 +2,8 @@ package com.m4thg33k.gemulation.inventory;
 
 import com.m4thg33k.gemulation.tiles.TileGemFurnace;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -17,16 +15,19 @@ public class ContainerGemFurnace extends Container{
     public int totalBurnTime;
     public int cookTime;
     public int totalItemCookTime;
+    public int storedFuel;
+    public int maxFuel;
+    public int getNumSmeltable;
     public ItemStack outputStack;
 
-    public ContainerGemFurnace(IInventory playerInventory, TileGemFurnace tileGemFurnace)
+    public ContainerGemFurnace(InventoryPlayer playerInventory, TileGemFurnace tileGemFurnace)
     {
         te = tileGemFurnace;
 
         //te inventory
-        this.addSlotToContainer(new Slot(te,0,53,48));
-        this.addSlotToContainer(new Slot(te,1,53,12));
-        this.addSlotToContainer(new NoInputSlot(te,2,107,30));
+        this.addSlotToContainer(new Slot(te,0,53,52));
+        this.addSlotToContainer(new Slot(te,1,53,16));
+        this.addSlotToContainer(new SlotFurnaceOutput(playerInventory.player,te,2,107,34));
 //        for (int y=0;y<te.getSizeInventory();y++)
 //        {
 //            this.addSlotToContainer(new Slot(te,y,62,17+y*18));
@@ -154,12 +155,30 @@ public class ContainerGemFurnace extends Container{
             {
                 iCrafting.sendProgressBarUpdate(this,3,this.te.currentItemBurnTime);
             }
+
+            if (this.te.storedFuel != this.storedFuel)
+            {
+                iCrafting.sendProgressBarUpdate(this,4,this.te.storedFuel);
+            }
+
+            if (this.te.getMaxFuel() != this.maxFuel)
+            {
+                iCrafting.sendProgressBarUpdate(this,5,this.te.getMaxFuel());
+            }
+
+            if (this.te.getNumSmeltable() != getNumSmeltable)
+            {
+                iCrafting.sendProgressBarUpdate(this,6,this.te.getNumSmeltable());
+            }
         }
 
         this.cookTime = te.cookTime;
         this.totalItemCookTime = te.totalCookTime;
         this.burnTime = te.burnTime;
         this.totalBurnTime = te.currentItemBurnTime;
+        this.storedFuel = te.storedFuel;
+        this.maxFuel = te.getMaxFuel();
+        this.getNumSmeltable = te.getNumSmeltable();
         if (te.getStackInSlot(2)==null)
         {
             this.outputStack = null;
@@ -177,6 +196,9 @@ public class ContainerGemFurnace extends Container{
         iCrafting.sendProgressBarUpdate(this,1,totalItemCookTime);
         iCrafting.sendProgressBarUpdate(this,2,burnTime);
         iCrafting.sendProgressBarUpdate(this,3,totalBurnTime);
+        iCrafting.sendProgressBarUpdate(this,4,storedFuel);
+        iCrafting.sendProgressBarUpdate(this,5,maxFuel);
+        iCrafting.sendProgressBarUpdate(this,6,getNumSmeltable);
     }
 
     @Override
@@ -194,6 +216,15 @@ public class ContainerGemFurnace extends Container{
                 break;
             case 3:
                 totalBurnTime = data;
+                break;
+            case 4:
+                storedFuel = data;
+                break;
+            case 5:
+                maxFuel = data;
+                break;
+            case 6:
+                getNumSmeltable = data;
                 break;
             default:
         }
