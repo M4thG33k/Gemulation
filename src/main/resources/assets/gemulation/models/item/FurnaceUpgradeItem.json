@@ -1,0 +1,7 @@
+{
+  "parent": "gemulation:item/standard_item",
+  "textures": {
+    "layer0":"silentgems:items/Gem0",
+    "layer1":"gemulation:items/FurnaceUpgradeItem"
+  }
+}

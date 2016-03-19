@@ -4,6 +4,7 @@ import com.m4thg33k.gemulation.Gemulation;
 import com.m4thg33k.gemulation.block.ModBlocks;
 import com.m4thg33k.gemulation.core.init.ModRecipes;
 import com.m4thg33k.gemulation.gui.GemulationGuiHandler;
+import com.m4thg33k.gemulation.items.ModItems;
 import com.m4thg33k.gemulation.network.packets.GemulationPackets;
 import com.m4thg33k.gemulation.network.packets.PacketNBT;
 import com.m4thg33k.gemulation.tiles.ModTiles;
@@ -17,6 +18,7 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent e)
     {
         GemulationPackets.init();
+        ModItems.createItems();
         ModBlocks.createBlocks();
     }
 

@@ -16,6 +16,7 @@ public class ModRecipes {
         for (int i=0;i< EnumGem.values().length;i++)
         {
             GameRegistry.addRecipe(new ItemStack(ModBlocks.gemFurnaceBlock,1,i)," g "," f "," g ",'f',new ItemStack(Blocks.furnace,1),'g',new ItemStack(ModItems.gem,1,i));
+            GameRegistry.addRecipe(new ItemStack(ModBlocks.gemFurnaceBlock,1,i)," g "," f "," g ",'f',new ItemStack(ModBlocks.improvedFurnaceBlock,1),'g',new ItemStack(ModItems.gem,1,i));
         }
 
         GameRegistry.addRecipe(new ItemStack(ModBlocks.improvedFurnaceBlock,1)," g "," f "," g ",'f',new ItemStack(Blocks.furnace,1),'g',new ItemStack(Items.flint));

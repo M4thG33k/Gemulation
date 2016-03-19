@@ -7,6 +7,7 @@ import com.m4thg33k.gemulation.tiles.TileGemFurnace;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiGemFurnace extends GuiContainer {
@@ -69,23 +70,18 @@ public class GuiGemFurnace extends GuiContainer {
         int k = (width - xSize)/2;
         int l = (height - ySize)/2;
 
-//        zLevel = 0;
         drawTexturedModalRect(k,l,0,0,xSize,ySize);
         int L;
-//        if (TileGemFurnace.isBurning(tileGemFurnace))
-//        {
-            L = getBurnLeftScaled(13);
-            drawTexturedModalRect(k+53,l+48-L,176,13-L,14,L+1);
-//        }
+        L = getBurnLeftScaled(13);
+        drawTexturedModalRect(k+53,l+48-L,176,13-L,14,L+1);
 
-//        zLevel = 1;
         L = getCookProgressScaled(24);
         this.drawTexturedModalRect(k+76,l+34,176,14,L+1,16);
 
-//        zLevel = 2; //7x54
         L = getStoredFuelScaled(54);
         this.drawTexturedModalRect(k+43,l+68-L,176,84-L,7,L);
 
+        drawUpgrades(k,l);
     }
 
     private int getStoredFuelScaled(int pixels)
@@ -108,5 +104,28 @@ public class GuiGemFurnace extends GuiContainer {
         int i = ((ContainerGemFurnace)this.inventorySlots).totalBurnTime;
         int j = ((ContainerGemFurnace)this.inventorySlots).burnTime;
         return j!=0 && i!=0 ? j*pixels/i : 0;
+    }
+
+    private void drawUpgrades(int k, int l)
+    {
+        int num = tileGemFurnace.getUpgradeCount();
+        int numInstalled = tileGemFurnace.getNumUpgradesInstalled();
+        ItemStack[] upgrades = tileGemFurnace.getUpgrades();
+
+        int i=0;
+        while (i<numInstalled)
+        {
+            this.drawTexturedModalRect(k+153,l+5+20*i,183,31,18,18);
+            this.itemRender.renderItemAndEffectIntoGUI(upgrades[i],k+154,l+6+20*i);
+            i++;
+        }
+
+        mc.getTextureManager().bindTexture(new ResourceLocation(Gemulation.MODID+":textures/gui/"+ Names.GEM_FURNACE + ".png"));
+        while (i<num)
+//        for (int i=0;i<num;i++)
+        {
+            this.drawTexturedModalRect(k+153,l+5+20*i,183,31,18,18);
+            i++;
+        }
     }
 }

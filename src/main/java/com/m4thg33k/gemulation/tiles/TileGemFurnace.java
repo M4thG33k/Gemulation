@@ -44,7 +44,8 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
     private double fuelBooster = 1.0; //changes how much fuel you get from each fuel source (based on damage)
     private int maxFuel = 0; //the maximum amount of fuel you can store (based on durability and damage)
 
-
+    private ItemStack[] upgrades;
+    private int numUpgradesInstalled;
 
 
 
@@ -60,6 +61,7 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         facing = EnumFacing.NORTH;
         isOn = false;
         inventory = new ItemStack[this.getSizeInventory()];
+        numUpgradesInstalled = 0;
         if (meta==-1)
         {
             customName = "Improved Furnace";
@@ -67,17 +69,26 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
             fuelBooster = 1;
             upgradeCount = 0;
             maxFuel = 12800;
+            this.upgrades = null;
         }
         else
         {
+            customName = EnumGem.get(meta).name + " Furnace";
 
-        customName = EnumGem.get(meta).name + " Furnace";
+            Item.ToolMaterial material = EnumGem.get(meta).getToolMaterial(false);
+            cookTimeFactor = -(1.0/8.0)*material.getEfficiencyOnProperMaterial()+2.0;
+            fuelBooster = ((1.0/8.0)*material.getDamageVsEntity()+3.0/4.0);
+            upgradeCount = (material.getEnchantability()-8)/2;
+            maxFuel = (int)Math.ceil((400*(material.getMaxUses())-102400)*fuelBooster);
 
-        Item.ToolMaterial material = EnumGem.get(meta).getToolMaterial(false);
-        cookTimeFactor = -(1.0/8.0)*material.getEfficiencyOnProperMaterial()+2.0;
-        fuelBooster = ((1.0/8.0)*material.getDamageVsEntity()+3.0/4.0);
-        upgradeCount = (material.getEnchantability()-8)/2;
-        maxFuel = (int)Math.ceil((400*(material.getMaxUses())-102400)*fuelBooster);
+            if (upgradeCount>0)
+            {
+                this.upgrades = new ItemStack[upgradeCount];
+            }
+            else
+            {
+                this.upgrades = null;
+            }
         }
     }
 
@@ -140,6 +151,25 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         upgradeCount = compound.getInteger("upgradeCount");
         fuelBooster = compound.getDouble("fuelBooster");
         maxFuel = compound.getInteger("maxFuel");
+
+
+        if (upgradeCount==0)
+        {
+            upgrades = null;
+        }
+        else
+        {
+            upgrades = new ItemStack[upgradeCount];
+        }
+
+        numUpgradesInstalled = compound.getInteger("numUpgradesInstalled");
+        NBTTagList list2 = compound.getTagList("Upgrades",10);
+        for (int i=0;i<list2.tagCount();i++)
+        {
+            NBTTagCompound stackTag = list2.getCompoundTagAt(i);
+            int slot = stackTag.getInteger("Slot");
+            this.upgrades[slot] = ItemStack.loadItemStackFromNBT(stackTag);
+        }
     }
 
     @Override
@@ -176,6 +206,20 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         compound.setInteger("upgradeCount",upgradeCount);
         compound.setDouble("fuelBooster",fuelBooster);
         compound.setInteger("maxFuel",maxFuel);
+
+
+        compound.setInteger("numUpgradesInstalled",numUpgradesInstalled);
+        NBTTagList list2 = new NBTTagList();
+        for (int i = 0; i < upgradeCount; i++) {
+            if (upgrades[i] != null) {
+                NBTTagCompound stackTag = new NBTTagCompound();
+                stackTag.setInteger("Slot",i);
+                this.upgrades[i].writeToNBT(stackTag);
+                list2.appendTag(stackTag);
+            }
+        }
+
+        compound.setTag("Upgrades",list2);
     }
 
     @Override
@@ -437,7 +481,7 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
                 if (!isBurning() && canSmelt())
                 {
                     currentItemBurnTime = burnTime = getCookTime(inventory[1]);
-                    storedFuel -= getCookTime(inventory[1]);
+                    storedFuel -= getCookCost(inventory[1]);
                     if (isBurning())
                     {
                         isDirty = true;
@@ -490,6 +534,11 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         return (int)(Math.floor(200*cookTimeFactor));
     }
 
+    public int getCookCost(ItemStack stack)
+    {
+        return 200;
+    }
+
     /**
      * Returns the number of ticks that the supplied fuel will keep the furnace burning (including fuelBoost) or 0 if
      * the item is not fuel
@@ -520,7 +569,7 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         {
             return false;
         }
-        return storedFuel >= getCookTime(inventory[1]);
+        return storedFuel >= getCookCost(inventory[1]);
     }
 
     /**
@@ -579,8 +628,35 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
     public int getNumSmeltable()
     {
 //        LogHelper.info(""+storedFuel+","+getCookTime(null)+","+(storedFuel/getCookTime(null)));
-        return (storedFuel/getCookTime(null));
+        return (storedFuel/getCookCost(null));
     }
 
+    public boolean canReceiveUpgrade()
+    {
+        return numUpgradesInstalled<upgradeCount;
+    }
 
+    public void installUpgrade(ItemStack stack)
+    {
+        upgrades[numUpgradesInstalled] = stack;
+        numUpgradesInstalled++;
+
+        //temporary
+        cookTimeFactor *= 0.25;
+    }
+
+    public int getUpgradeCount()
+    {
+        return upgradeCount;
+    }
+
+    public ItemStack[] getUpgrades()
+    {
+        return upgrades;
+    }
+
+    public int getNumUpgradesInstalled()
+    {
+        return numUpgradesInstalled;
+    }
 }
