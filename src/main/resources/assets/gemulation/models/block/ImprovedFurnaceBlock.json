@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:orientable",
+  "textures": {
+    "side": "gemulation:blocks/ImprovedFurnaceBlock",
+    "top": "gemulation:blocks/ImprovedFurnaceBlock",
+    "front": "gemulation:blocks/ImprovedFurnaceBlockFront"
+  }
+}

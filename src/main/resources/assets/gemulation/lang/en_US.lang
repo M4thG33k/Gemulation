@@ -15,3 +15,5 @@ tile.GemFurnaceBlock_8.name=Iolite Furnace
 tile.GemFurnaceBlock_9.name=Amethyst Furnace
 tile.GemFurnaceBlock_10.name=Morganite Furnace
 tile.GemFurnaceBlock_11.name=Onyx Furnace
+
+tile.ImprovedFurnaceBlock.name=Improved Furnace

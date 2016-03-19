@@ -2,6 +2,7 @@ package com.m4thg33k.gemulation.core.init;
 
 import com.m4thg33k.gemulation.block.ModBlocks;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.item.ModItems;
@@ -16,5 +17,7 @@ public class ModRecipes {
         {
             GameRegistry.addRecipe(new ItemStack(ModBlocks.gemFurnaceBlock,1,i)," g "," f "," g ",'f',new ItemStack(Blocks.furnace,1),'g',new ItemStack(ModItems.gem,1,i));
         }
+
+        GameRegistry.addRecipe(new ItemStack(ModBlocks.improvedFurnaceBlock,1)," g "," f "," g ",'f',new ItemStack(Blocks.furnace,1),'g',new ItemStack(Items.flint));
     }
 }

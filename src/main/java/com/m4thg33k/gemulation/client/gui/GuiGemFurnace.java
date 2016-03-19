@@ -72,11 +72,11 @@ public class GuiGemFurnace extends GuiContainer {
 //        zLevel = 0;
         drawTexturedModalRect(k,l,0,0,xSize,ySize);
         int L;
-        if (TileGemFurnace.isBurning(tileGemFurnace))
-        {
+//        if (TileGemFurnace.isBurning(tileGemFurnace))
+//        {
             L = getBurnLeftScaled(13);
             drawTexturedModalRect(k+53,l+48-L,176,13-L,14,L+1);
-        }
+//        }
 
 //        zLevel = 1;
         L = getCookProgressScaled(24);

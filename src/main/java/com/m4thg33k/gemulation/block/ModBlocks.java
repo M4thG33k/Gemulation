@@ -8,9 +8,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ModBlocks {
 
     public static Block gemFurnaceBlock;
+    public static Block improvedFurnaceBlock;
 
     public static void createBlocks()
     {
         GameRegistry.registerBlock(gemFurnaceBlock = new GemFurnaceBlock(), GemFurnaceItemBlock.class, Names.GEM_FURNACE);
+        GameRegistry.registerBlock(improvedFurnaceBlock = new ImprovedFurnaceBlock(), Names.IMPROVED_FURNACE);
     }
 }

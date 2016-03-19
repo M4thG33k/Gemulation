@@ -3,7 +3,6 @@ package com.m4thg33k.gemulation.block;
 import com.m4thg33k.gemulation.Gemulation;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 
 public class BaseBlock extends Block {
 

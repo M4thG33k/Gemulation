@@ -2,7 +2,6 @@ package com.m4thg33k.gemulation.core.proxies;
 
 import com.m4thg33k.gemulation.Gemulation;
 import com.m4thg33k.gemulation.block.ModBlocks;
-import com.m4thg33k.gemulation.client.render.item.ItemRenderRegister;
 import com.m4thg33k.gemulation.core.init.ModRecipes;
 import com.m4thg33k.gemulation.gui.GemulationGuiHandler;
 import com.m4thg33k.gemulation.network.packets.GemulationPackets;

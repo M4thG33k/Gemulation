@@ -2,7 +2,6 @@ package com.m4thg33k.gemulation.inventory;
 
 import com.m4thg33k.gemulation.core.util.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

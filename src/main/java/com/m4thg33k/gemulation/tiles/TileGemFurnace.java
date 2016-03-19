@@ -58,6 +58,16 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         facing = EnumFacing.NORTH;
         isOn = false;
         inventory = new ItemStack[this.getSizeInventory()];
+        if (meta==-1)
+        {
+            customName = "Improved Furnace";
+            cookTimeFactor = 1;
+            fuelBooster = 1;
+            upgradeCount = 0;
+            maxFuel = 12800;
+        }
+        else
+        {
 
         customName = EnumGem.get(meta).name + " Furnace";
 
@@ -66,6 +76,7 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         fuelBooster = ((1.0/8.0)*material.getDamageVsEntity()+3.0/4.0);
         upgradeCount = (material.getEnchantability()-8)/2;
         maxFuel = (int)Math.ceil((400*(material.getMaxUses())-102400)*fuelBooster);
+        }
     }
 
     public int getMaxFuel()
@@ -466,9 +477,9 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         if (isDirty)
         {
             markDirty();
-//            NBTTagCompound tag = new NBTTagCompound();
-//            writeToNBT(tag);
-//            GemulationPackets.INSTANCE.sendToAllAround(new PacketNBT(pos,tag),new NetworkRegistry.TargetPoint(worldObj.provider.getDimensionId(),pos.getX(),pos.getY(),pos.getZ(),32));
+            NBTTagCompound tag = new NBTTagCompound();
+            writeToNBT(tag);
+            GemulationPackets.INSTANCE.sendToAllAround(new PacketNBT(pos,tag),new NetworkRegistry.TargetPoint(worldObj.provider.getDimensionId(),pos.getX(),pos.getY(),pos.getZ(),32));
         }
     }
 

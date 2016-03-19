@@ -1,0 +1,15 @@
+[
+{
+  "modid": "gemulation",
+  "name": "Gemulation",
+  "description": "Extra uses for gems.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["M4thG33k"],
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["SilentGems"]
+}
+]
