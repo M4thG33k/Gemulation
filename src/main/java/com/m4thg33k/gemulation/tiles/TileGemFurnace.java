@@ -466,9 +466,9 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
         if (isDirty)
         {
             markDirty();
-            NBTTagCompound tag = new NBTTagCompound();
-            writeToNBT(tag);
-            GemulationPackets.INSTANCE.sendToAllAround(new PacketNBT(pos,tag),new NetworkRegistry.TargetPoint(worldObj.provider.getDimensionId(),pos.getX(),pos.getY(),pos.getZ(),32));
+//            NBTTagCompound tag = new NBTTagCompound();
+//            writeToNBT(tag);
+//            GemulationPackets.INSTANCE.sendToAllAround(new PacketNBT(pos,tag),new NetworkRegistry.TargetPoint(worldObj.provider.getDimensionId(),pos.getX(),pos.getY(),pos.getZ(),32));
         }
     }
 

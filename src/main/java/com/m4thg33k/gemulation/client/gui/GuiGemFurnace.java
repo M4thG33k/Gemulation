@@ -1,7 +1,6 @@
 package com.m4thg33k.gemulation.client.gui;
 
 import com.m4thg33k.gemulation.Gemulation;
-import com.m4thg33k.gemulation.core.util.LogHelper;
 import com.m4thg33k.gemulation.inventory.ContainerGemFurnace;
 import com.m4thg33k.gemulation.lib.Names;
 import com.m4thg33k.gemulation.tiles.TileGemFurnace;
@@ -41,11 +40,12 @@ public class GuiGemFurnace extends GuiContainer {
             return;
         }
         GlStateManager.color(1.0f,1.0f,1.0f,1.0f);
-        mc.getTextureManager().bindTexture(new ResourceLocation(Gemulation.MODID+":textures/gui/"+ Names.GEM_FURNACE + ".png"));
 
         int stored = ((ContainerGemFurnace)this.inventorySlots).storedFuel;
         int max = ((ContainerGemFurnace)this.inventorySlots).maxFuel;
-        double perc = Math.floor(((double)stored/(double)max)*10000)/100;
+
+//        this.fontRendererObj.drawString(stored + "," + max,mX+10,mY+10,0x404040);
+        double perc = Math.floor(((double)stored/((double)max))*10000)/100;
 
         String smelt = "Able to smelt %d items.";
         String percent = "Fuel Level At: " + perc + "%.";
@@ -53,6 +53,7 @@ public class GuiGemFurnace extends GuiContainer {
 
         int textWidth = this.fontRendererObj.getStringWidth(smelt);
 
+        mc.getTextureManager().bindTexture(new ResourceLocation(Gemulation.MODID+":textures/gui/"+ Names.GEM_FURNACE + ".png"));
         this.drawTexturedModalRect(mX-textWidth-2,mY-12,0,180,textWidth+4,18);
 
         this.fontRendererObj.drawString(percent,mX-textWidth,mY-10,0x404040);
@@ -74,7 +75,7 @@ public class GuiGemFurnace extends GuiContainer {
         if (TileGemFurnace.isBurning(tileGemFurnace))
         {
             L = getBurnLeftScaled(13);
-            drawTexturedModalRect(k+53,l+47-L,176,12-L,14,L+1);
+            drawTexturedModalRect(k+53,l+48-L,176,13-L,14,L+1);
         }
 
 //        zLevel = 1;

@@ -1,5 +1,6 @@
 package com.m4thg33k.gemulation.inventory;
 
+import com.m4thg33k.gemulation.core.util.LogHelper;
 import com.m4thg33k.gemulation.tiles.TileGemFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -158,17 +159,21 @@ public class ContainerGemFurnace extends Container{
 
             if (this.te.storedFuel != this.storedFuel)
             {
-                iCrafting.sendProgressBarUpdate(this,4,this.te.storedFuel);
+                //because they get truncated to shorts, we have to split this into two fields
+                iCrafting.sendProgressBarUpdate(this,4,this.te.storedFuel/1000);
+                iCrafting.sendProgressBarUpdate(this,5,this.te.storedFuel%1000);
             }
 
             if (this.te.getMaxFuel() != this.maxFuel)
             {
-                iCrafting.sendProgressBarUpdate(this,5,this.te.getMaxFuel());
+                //because they get truncated to shorts, we have to split this into two fields
+                iCrafting.sendProgressBarUpdate(this,6,this.te.getMaxFuel()/1000);
+                iCrafting.sendProgressBarUpdate(this,7,this.te.getMaxFuel()%1000);
             }
 
             if (this.te.getNumSmeltable() != getNumSmeltable)
             {
-                iCrafting.sendProgressBarUpdate(this,6,this.te.getNumSmeltable());
+                iCrafting.sendProgressBarUpdate(this,8,this.te.getNumSmeltable());
             }
         }
 
@@ -196,9 +201,13 @@ public class ContainerGemFurnace extends Container{
         iCrafting.sendProgressBarUpdate(this,1,totalItemCookTime);
         iCrafting.sendProgressBarUpdate(this,2,burnTime);
         iCrafting.sendProgressBarUpdate(this,3,totalBurnTime);
-        iCrafting.sendProgressBarUpdate(this,4,storedFuel);
-        iCrafting.sendProgressBarUpdate(this,5,maxFuel);
-        iCrafting.sendProgressBarUpdate(this,6,getNumSmeltable);
+        //because they get truncated to shorts, we have to split this into two fields
+        iCrafting.sendProgressBarUpdate(this,4,storedFuel/1000);
+        iCrafting.sendProgressBarUpdate(this,5,storedFuel%1000);
+        //because they get truncated to shorts, we have to split this into two fields
+        iCrafting.sendProgressBarUpdate(this,6,maxFuel/1000);
+        iCrafting.sendProgressBarUpdate(this,7,maxFuel%1000);
+        iCrafting.sendProgressBarUpdate(this,8,getNumSmeltable);
     }
 
     @Override
@@ -218,12 +227,18 @@ public class ContainerGemFurnace extends Container{
                 totalBurnTime = data;
                 break;
             case 4:
-                storedFuel = data;
+                storedFuel = data*1000;
                 break;
             case 5:
-                maxFuel = data;
+                storedFuel += data;
                 break;
             case 6:
+                maxFuel = data*1000;
+                break;
+            case 7:
+                maxFuel += data;
+                break;
+            case 8:
                 getNumSmeltable = data;
                 break;
             default:
