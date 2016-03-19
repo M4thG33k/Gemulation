@@ -20,6 +20,7 @@ public class ItemRenderRegister {
             ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.gemFurnaceBlock),i,new ModelResourceLocation("gemulation:"+Names.GEM_FURNACE,"facing=north,on=false,variant="+ EnumGem.values()[i].getName().toLowerCase()));
         }
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.improvedFurnaceBlock),0,new ModelResourceLocation(Gemulation.MODID+":"+Names.IMPROVED_FURNACE,"facing=north,on=false"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.gemChangerBlock),0,new ModelResourceLocation(Gemulation.MODID+":"+Names.GEM_CHANGER,"inventory"));
 
         //items
         for (int i=0;i<3;i++)
