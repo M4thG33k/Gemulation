@@ -42,6 +42,7 @@ public class TileGemChanger extends TileEntity implements ISidedInventory {
         }
 
         customName = compound.getString("CustomName");
+
     }
 
     @Override
@@ -61,7 +62,9 @@ public class TileGemChanger extends TileEntity implements ISidedInventory {
         }
         compound.setTag("Items",list);
 
-        compound.setString("CustomName",customName);
+        if (customName!=null && !customName.equals("")) {
+            compound.setString("CustomName", customName);
+        }
     }
 
     @Override
