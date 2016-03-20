@@ -28,7 +28,7 @@ public class ItemFurnaceUpgrade extends Item {
         this.setUnlocalizedName(Names.FURNACE_UPGRADE);
         this.setHasSubtypes(true);
 
-        this.setMaxStackSize(1);
+        this.setMaxStackSize(64);
     }
 
     @Override
