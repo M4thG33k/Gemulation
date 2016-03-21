@@ -9,22 +9,30 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
 //This type of slot allows no items put into it from a user (the te can still do it though)
-public class NoInputSlot extends Slot {
+public class SlotVariableInput extends Slot {
 
-    public NoInputSlot(IInventory inv, int index, int xpos, int ypos)
+    private boolean allowInsertion;
+    private boolean allowRemoval;
+
+    public SlotVariableInput(IInventory inv, int index, int xpos, int ypos, boolean allowInsertion,boolean allowRemoval)
     {
         super(inv,index,xpos,ypos);
+        this.allowInsertion = allowInsertion;
+        this.allowRemoval = allowRemoval;
     }
 
     @Override
     public boolean isItemValid(ItemStack stack) {
-        return false;
+        return allowInsertion;
     }
 
     @Override
     public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
         super.onPickupFromSlot(playerIn, stack);
-        playerIn.addExperience((int)FurnaceRecipes.instance().getSmeltingExperience(stack)*stack.stackSize);
-        LogHelper.info(FurnaceRecipes.instance().getSmeltingExperience(new ItemStack(Items.iron_ingot,64)));
+    }
+
+    @Override
+    public boolean canTakeStack(EntityPlayer playerIn) {
+        return allowRemoval;
     }
 }

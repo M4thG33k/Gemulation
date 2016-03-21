@@ -1,5 +1,6 @@
 package com.m4thg33k.gemulation.tiles;
 
+import com.m4thg33k.gemulation.core.util.LogHelper;
 import com.m4thg33k.gemulation.lib.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -7,13 +8,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.*;
 import net.silentchaos512.gems.item.ModItems;
 
-public class TileGemChanger extends TileEntity implements ISidedInventory {
+public class TileGemChanger extends TileEntity implements ISidedInventory, ITickable {
 
     /**
      * Slots 0-11 will be input
@@ -24,9 +22,47 @@ public class TileGemChanger extends TileEntity implements ISidedInventory {
     protected ItemStack[] inventory = new ItemStack[26];
     protected String customName;
 
+    public static final int TIMER_DELAY = 1;
+    public int timer = 0;
+
+    public boolean[] blacklisted = new boolean[12];
+    public int numBlacklisted;
+
     public TileGemChanger()
     {
+        resetBlacklist();
+    }
 
+    public void resetBlacklist()
+    {
+        LogHelper.info("Reset blacklist!");
+        for (int i=0;i<12;i++)
+        {
+            blacklisted[i] = false;
+        }
+        numBlacklisted = 0;
+    }
+
+    public int getBlacklistInt()
+    {
+        int val = 0;
+        for (int i=0;i<12;i++)
+        {
+            if (blacklisted[i])
+            {
+                val += (1<<i);
+            }
+        }
+        return val;
+    }
+
+    public void getBlacklistArray(int val)
+    {
+        for (int i=11;i>=0;i--)
+        {
+            blacklisted[i] = (val&1)==1;
+            val = val>>1;
+        }
     }
 
     @Override
@@ -42,6 +78,11 @@ public class TileGemChanger extends TileEntity implements ISidedInventory {
         }
 
         customName = compound.getString("CustomName");
+
+        timer = compound.getInteger("Timer");
+
+        getBlacklistArray(compound.getInteger("Blacklisted"));
+        numBlacklisted = compound.getInteger("NumBlacklisted");
 
     }
 
@@ -65,6 +106,11 @@ public class TileGemChanger extends TileEntity implements ISidedInventory {
         if (customName!=null && !customName.equals("")) {
             compound.setString("CustomName", customName);
         }
+
+        compound.setInteger("Timer",timer);
+
+        compound.setInteger("Blacklisted",getBlacklistInt());
+        compound.setInteger("NumBlacklisted",numBlacklisted);
     }
 
     @Override
@@ -131,6 +177,11 @@ public class TileGemChanger extends TileEntity implements ISidedInventory {
         if (stack != null && stack.stackSize > getInventoryStackLimit())
         {
             stack.stackSize = getInventoryStackLimit();
+
+            if (index==25)
+            {
+                resetBlacklist();
+            }
         }
     }
 
@@ -211,4 +262,179 @@ public class TileGemChanger extends TileEntity implements ISidedInventory {
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
         return (index>=12 && index<24);
     }
+
+    @Override
+    public void update() {
+        boolean isDirty = false;
+
+        increaseTimer();
+
+        if (!worldObj.isRemote)
+        {
+            isDirty = moveToWork();
+
+            if (hasRoomForOutput() && timer==0)
+            {
+                randomlyConvert();
+                moveToOutput();
+                isDirty = true;
+            }
+        }
+
+        if (isDirty)
+        {
+            markDirty();
+        }
+    }
+
+    /**
+     * attempts to move a gem from the input area into the working area.
+     * will not pull from the same slot as the target gem (that would be wasteful)
+     * returns true if it succeeds, false if it doesn't
+     */
+    public boolean moveToWork()
+    {
+        if (inventory[24]!=null)
+        {
+            return false;
+        }
+
+        int blacklist = 12;
+        if (inventory[25]!=null)
+        {
+            blacklist = inventory[25].getItemDamage();
+        }
+
+        for (int i=0;i<12;i++)
+        {
+            if (i == blacklist)
+            {
+                continue;
+            }
+            if (inventory[i]!=null)
+            {
+                setInventorySlotContents(24,new ItemStack(inventory[i].getItem(),1,inventory[i].getItemDamage()));
+                decrStackSize(i,1);
+                resetBlacklist();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * moves the gem from the working slot to its corresponding output slot
+     * if there is a target gem and the gems don't match, this returns false
+     * it returns true if a gem is actually moved
+     *
+     * this should only be called after the appropriate checks have been made
+     * to ensure there is room for the gem
+     */
+    public boolean moveToOutput()
+    {
+        if(inventory[24]==null)
+        {
+            return false;
+        }
+
+        if (inventory[25]!=null && inventory[24].getItemDamage()!=inventory[25].getItemDamage())
+        {
+            return false;
+        }
+
+        int index = inventory[24].getItemDamage()+12;
+        if (inventory[index]==null)
+        {
+            setInventorySlotContents(index,new ItemStack(inventory[24].getItem(),1,inventory[24].getItemDamage()));
+        }
+        else
+        {
+            inventory[index].stackSize++;
+        }
+        decrStackSize(24,1);
+        return true;
+    }
+
+    /**
+     * checks if there is room to place a converted gem. If there is no target gem, it checks if
+     * all output slots have room for a gem (since it's randomized). Otherwise, it only checks the
+     * target gem's location. If there is no gem in the working location, this automatically
+     * returns false.
+     */
+    public boolean hasRoomForOutput()
+    {
+        if (inventory[24]==null)
+        {
+            return false;
+        }
+
+        if (inventory[25]==null)
+        {
+            //check every location
+            for (int i=12;i<24;i++)
+            {
+                if (inventory[i]!=null && inventory[i].stackSize==getInventoryStackLimit())
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        //otherwise just check the target's output location
+        int targetIndex = 12+inventory[25].getItemDamage();
+        return !(inventory[targetIndex]!=null && inventory[targetIndex].stackSize==getInventoryStackLimit());
+//        if (inventory[targetIndex]!=null && inventory[targetIndex].stackSize==getInventoryStackLimit())
+//        {
+//            return false;
+//        }
+//        return true;
+    }
+
+    /**
+     * converts a gem in the working area to another gem and leaves it there
+     */
+    public void randomlyConvert()
+    {
+        if (inventory[24]==null)
+        {
+            return;
+        }
+
+        if (!blacklisted[inventory[24].getItemDamage()]) {
+            blacklisted[inventory[24].getItemDamage()] = true;
+            numBlacklisted += 1;
+        }
+        if (numBlacklisted>=blacklisted.length)
+        {
+            LogHelper.error("invalid blacklisting has happened! (Gemulation - TileGemChanger)");
+            throw new Error();
+        }
+
+        int newType = worldObj.rand.nextInt(12-numBlacklisted);
+        int i=0;
+        while (i<=newType)
+        {
+            if (blacklisted[i])
+            {
+                newType++;
+            }
+            i++;
+        }
+
+//        int blacklist = inventory[24].getItemDamage();
+//        int newType = worldObj.rand.nextInt(11);
+//        if (newType>=blacklist)
+//        {
+//            newType++;
+//        }
+        setInventorySlotContents(24,new ItemStack(ModItems.gem,1,newType));
+    }
+
+    public void increaseTimer()
+    {
+        timer = (timer+1)%TIMER_DELAY;
+    }
+
+
+
 }

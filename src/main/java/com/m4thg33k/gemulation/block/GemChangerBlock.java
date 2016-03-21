@@ -7,6 +7,7 @@ import com.m4thg33k.gemulation.tiles.TileGemChanger;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -36,5 +37,14 @@ public class GemChangerBlock extends BaseBlock {
             playerIn.openGui(Gemulation.instance, GemulationGuiHandler.GEM_CHANGER_GUI,worldIn,pos.getX(),pos.getY(),pos.getZ());
         }
         return true;
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        TileGemChanger te = (TileGemChanger)worldIn.getTileEntity(pos);
+
+        InventoryHelper.dropInventoryItems(worldIn,pos,te);
+
+        super.breakBlock(worldIn, pos, state);
     }
 }
