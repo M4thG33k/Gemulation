@@ -40,11 +40,14 @@ public class ClientProxy  extends CommonProxy
 
         BlockRenderRegister.registerBlockRenderer();
 
-        for (GemChestType type : GemChestType.values())
-        {
-            GameRegistry.registerTileEntityWithAlternatives(type.clazz, "GemChest." + type.name(),type.name());
-            this.registerTileEntitySpecialRenderer(type.clazz);
-        }
+        //register chest TESRS
+        ClientRegistry.bindTileEntitySpecialRenderer(TileGemChest.class,new TileGemChestRenderer()); //re-work tesr a bit
+//        for (GemChestType type : GemChestType.values())
+//        {
+//            GameRegistry.registerTileEntityWithAlternatives(type.clazz, "GemChest." + type.name(),type.name());
+//            ClientRegistry.bindTileEntitySpecialRenderer(type.clazz,new TileGemChestRenderer<>(type.clazz));
+//            this.registerTileEntitySpecialRenderer(type.clazz);
+//        }
 
     }
 
@@ -59,22 +62,23 @@ public class ClientProxy  extends CommonProxy
         Minecraft.getMinecraft().theWorld.markBlockForUpdate(message.pos);
     }
 
-    @Override
-    public void registerRenderInformation() {
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getModelManager().getBlockModelShapes().registerBuiltInBlocks(ModBlocks.gemChestBlock);
-        ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+//    @Override
+//    public void registerRenderInformation() {
+//        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getModelManager().getBlockModelShapes().registerBuiltInBlocks(ModBlocks.gemChestBlock);
+//        ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+//
+//        for (GemChestType type : GemChestType.values())
+//        {
+//            Item chestItem = Item.getItemFromBlock(ModBlocks.gemChestBlock);
+//            ModelLoader.setCustomModelResourceLocation(chestItem,type.ordinal(),new ModelResourceLocation(Gemulation.MODID+":"+ Names.GEM_CHEST,"inventory"));
+////            mesher.register(chestItem,type.ordinal(),new ModelResourceLocation("gemulation:chest_" + type.getName().toLowerCase(),"inventory"));
+////            ModelBakery.addVariantName(chestItem,"gemulation:chest_" + type.getName().toLowerCase());
+//        }
+//    }
 
-        for (GemChestType type : GemChestType.values())
-        {
-            Item chestItem = Item.getItemFromBlock(ModBlocks.gemChestBlock);
-            ModelLoader.setCustomModelResourceLocation(chestItem,type.ordinal(),new ModelResourceLocation(Gemulation.MODID+":"+ Names.GEM_CHEST,"inventory"));
-//            mesher.register(chestItem,type.ordinal(),new ModelResourceLocation("gemulation:chest_" + type.getName().toLowerCase(),"inventory"));
-//            ModelBakery.addVariantName(chestItem,"gemulation:chest_" + type.getName().toLowerCase());
-        }
-    }
 
-    @Override
-    public <T extends TileGemChest> void registerTileEntitySpecialRenderer(Class<T> type) {
-        ClientRegistry.bindTileEntitySpecialRenderer(type,new TileGemChestRenderer<>(type));
-    }
+//    @Override
+//    public <T extends TileGemChest> void registerTileEntitySpecialRenderer(Class<T> type) {
+//        ClientRegistry.bindTileEntitySpecialRenderer(type,new TileGemChestRenderer<>(type));
+//    }
 }

@@ -80,7 +80,8 @@ public class BlockGemChest extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return GemChestType.makeEntity(meta);
+        return new TileGemChest(GemChestType.values()[meta]);
+//        return GemChestType.makeEntity(meta);
     }
 
     @Override

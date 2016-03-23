@@ -9,11 +9,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Map;
 
-public class TileGemChestRenderer<T extends TileGemChest> extends TileEntitySpecialRenderer<T>{
+public class TileGemChestRenderer extends TileEntitySpecialRenderer{
 
     private static Map<GemChestType, ResourceLocation> locations;
 
@@ -28,7 +29,7 @@ public class TileGemChestRenderer<T extends TileGemChest> extends TileEntitySpec
 
     private ModelChest model;
 
-    public TileGemChestRenderer(Class<T> type)
+    public TileGemChestRenderer(GemChestType type)
     {
         model = new ModelChest();
     }
@@ -101,7 +102,7 @@ public class TileGemChestRenderer<T extends TileGemChest> extends TileEntitySpec
     }
 
     @Override
-    public void renderTileEntityAt(T te, double x, double y, double z, float partialTicks, int destroyStage) {
-        render(te,x,y,z,partialTicks,destroyStage);
+    public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTicks, int destroyStage) {
+        render((TileGemChest)te,x,y,z,partialTicks,destroyStage);
     }
 }
