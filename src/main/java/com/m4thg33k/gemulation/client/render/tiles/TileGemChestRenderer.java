@@ -29,7 +29,7 @@ public class TileGemChestRenderer extends TileEntitySpecialRenderer{
 
     private ModelChest model;
 
-    public TileGemChestRenderer(GemChestType type)
+    public TileGemChestRenderer()
     {
         model = new ModelChest();
     }

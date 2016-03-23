@@ -1,28 +1,19 @@
 package com.m4thg33k.gemulation.core.proxies;
 
 import com.m4thg33k.gemulation.Gemulation;
-import com.m4thg33k.gemulation.block.ModBlocks;
 import com.m4thg33k.gemulation.client.render.block.BlockRenderRegister;
 import com.m4thg33k.gemulation.client.render.handlers.TextureHandler;
 import com.m4thg33k.gemulation.client.render.item.ItemRenderRegister;
 import com.m4thg33k.gemulation.client.render.tiles.TileGemChestRenderer;
-import com.m4thg33k.gemulation.lib.GemChestType;
-import com.m4thg33k.gemulation.lib.Names;
 import com.m4thg33k.gemulation.network.packets.PacketNBT;
 import com.m4thg33k.gemulation.tiles.TileGemChest;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ClientProxy  extends CommonProxy
 {

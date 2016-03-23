@@ -17,7 +17,7 @@ public class ModBlocks {
     {
         GameRegistry.registerBlock(gemFurnaceBlock = new GemFurnaceBlock(), GemFurnaceItemBlock.class, Names.GEM_FURNACE);
         GameRegistry.registerBlock(improvedFurnaceBlock = new ImprovedFurnaceBlock(), Names.IMPROVED_FURNACE);
-        GameRegistry.registerBlock(gemChangerBlock = new GemChangerBlock(), Names.GEM_CHANGER);
         GameRegistry.registerBlock(gemChestBlock = new BlockGemChest(), GemChestItemBlock.class,Names.GEM_CHEST);
+        GameRegistry.registerBlock(gemChangerBlock = new GemChangerBlock(), Names.GEM_CHANGER);
     }
 }
