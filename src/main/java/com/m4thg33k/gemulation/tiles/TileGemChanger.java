@@ -10,8 +10,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.IChaosEnergyAccepter;
 
-public class TileGemChanger extends TileEntity implements ISidedInventory, ITickable {
+public class TileGemChanger extends TileEntity implements ISidedInventory, ITickable, IChaosEnergyAccepter {
 
     /**
      * Slots 0-11 will be input
@@ -22,20 +23,30 @@ public class TileGemChanger extends TileEntity implements ISidedInventory, ITick
     protected ItemStack[] inventory = new ItemStack[26];
     protected String customName;
 
+    ItemStack target;
+
     public static final int TIMER_DELAY = 1;
+    public static final int WORK_TIME = 100;
+    public static final int MAX_ENERGY = 1000000;
+    public static final int ENERGY_NEEDED_TO_CHANGE = 500;
     public int timer = 0;
 
     public boolean[] blacklisted = new boolean[12];
     public int numBlacklisted;
 
+    public int workTime;
+    public int energyStored;
+
     public TileGemChanger()
     {
         resetBlacklist();
+        customName = "Gem Changer";
+        target = null;
     }
 
     public void resetBlacklist()
     {
-        LogHelper.info("Reset blacklist!");
+//        LogHelper.info("Reset blacklist!");
         for (int i=0;i<12;i++)
         {
             blacklisted[i] = false;
@@ -83,7 +94,9 @@ public class TileGemChanger extends TileEntity implements ISidedInventory, ITick
 
         getBlacklistArray(compound.getInteger("Blacklisted"));
         numBlacklisted = compound.getInteger("NumBlacklisted");
-
+        workTime = compound.getInteger("WorkTime");
+        energyStored = compound.getInteger("StoredEnergy");
+        target = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("TargetStack"));
     }
 
     @Override
@@ -111,6 +124,15 @@ public class TileGemChanger extends TileEntity implements ISidedInventory, ITick
 
         compound.setInteger("Blacklisted",getBlacklistInt());
         compound.setInteger("NumBlacklisted",numBlacklisted);
+        compound.setInteger("WorkTime",workTime);
+        compound.setInteger("StoredEnergy", energyStored);
+
+        NBTTagCompound targetStack = new NBTTagCompound();
+        if (target!=null)
+        {
+            target.writeToNBT(targetStack);
+        }
+        compound.setTag("TargetStack",targetStack);
     }
 
     @Override
@@ -266,17 +288,40 @@ public class TileGemChanger extends TileEntity implements ISidedInventory, ITick
     @Override
     public void update() {
         boolean isDirty = false;
+        boolean wasMoved;
 
         increaseTimer();
 
         if (!worldObj.isRemote)
         {
+            checkIfTargetChanged();
+
             isDirty = moveToWork();
 
-            if (hasRoomForOutput() && timer==0)
+            if (hasWork() && !needsToStart())
+            {
+                workTime--;
+            }
+
+            if (needsToStart() && hasEnoughEnergy())
+            {
+                energyStored -= ENERGY_NEEDED_TO_CHANGE;
+                workTime--;
+            }
+
+//            if (hasWork() && hasEnoughEnergy())
+//            {
+//                workTime--;
+//            }
+
+            if (hasRoomForOutput() && !hasWork())
             {
                 randomlyConvert();
-                moveToOutput();
+                wasMoved = moveToOutput();
+                if (!wasMoved)
+                {
+                    workTime = WORK_TIME;
+                }
                 isDirty = true;
             }
         }
@@ -316,6 +361,7 @@ public class TileGemChanger extends TileEntity implements ISidedInventory, ITick
                 setInventorySlotContents(24,new ItemStack(inventory[i].getItem(),1,inventory[i].getItemDamage()));
                 decrStackSize(i,1);
                 resetBlacklist();
+                workTime = WORK_TIME;
                 return true;
             }
         }
@@ -407,7 +453,9 @@ public class TileGemChanger extends TileEntity implements ISidedInventory, ITick
         if (numBlacklisted>=blacklisted.length)
         {
             LogHelper.error("invalid blacklisting has happened! (Gemulation - TileGemChanger)");
-            throw new Error();
+            resetBlacklist();
+            blacklisted[inventory[24].getItemDamage()] = true;
+//            throw new Error();
         }
 
         int newType = worldObj.rand.nextInt(12-numBlacklisted);
@@ -435,6 +483,83 @@ public class TileGemChanger extends TileEntity implements ISidedInventory, ITick
         timer = (timer+1)%TIMER_DELAY;
     }
 
+    public boolean hasWork()
+    {
+        return workTime>0;
+    }
 
+    public boolean hasEnoughEnergy()
+    {
+        return energyStored >= ENERGY_NEEDED_TO_CHANGE;
+    }
 
+    @Override
+    public int receiveEnergy(int amount) {
+        int amountRecieved;
+        if (energyStored + amount > getMaxEnergyStored())
+        {
+            amountRecieved = getMaxEnergyStored() - energyStored;
+            energyStored = getMaxEnergyStored();
+        }
+        else
+        {
+            amountRecieved = amount;
+            energyStored += amount;
+        }
+
+        this.worldObj.markBlockForUpdate(pos);
+
+        return amountRecieved;
+    }
+
+    @Override
+    public boolean canReceiveEnergy() {
+        return energyStored < getMaxEnergyStored();
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return energyStored;
+    }
+
+    @Override
+    public int getMaxEnergyStored() {
+        return MAX_ENERGY;
+    }
+
+    public boolean needsToStart()
+    {
+        return workTime == WORK_TIME;
+    }
+
+    public void checkIfTargetChanged()
+    {
+        boolean needBlacklistUpdate = false;
+        if (target==null && inventory[25]!=null)
+        {
+            needBlacklistUpdate = true;
+            target = inventory[25].copy();
+        }
+        else if (target!=null)
+        {
+            if (inventory[25]==null)
+            {
+                needBlacklistUpdate = true;
+                target = null;
+            }
+            else
+            {
+                if (target.getItemDamage()!=inventory[25].getItemDamage())
+                {
+                    needBlacklistUpdate = true;
+                    target = inventory[25].copy();
+                }
+            }
+        }
+
+        if (needBlacklistUpdate)
+        {
+            resetBlacklist();
+        }
+    }
 }

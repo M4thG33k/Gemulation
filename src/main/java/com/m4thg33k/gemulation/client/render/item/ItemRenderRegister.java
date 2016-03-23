@@ -3,6 +3,7 @@ package com.m4thg33k.gemulation.client.render.item;
 import com.m4thg33k.gemulation.Gemulation;
 import com.m4thg33k.gemulation.block.ModBlocks;
 import com.m4thg33k.gemulation.items.ModItems;
+import com.m4thg33k.gemulation.lib.GemChestType;
 import com.m4thg33k.gemulation.lib.Names;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -21,6 +22,10 @@ public class ItemRenderRegister {
         }
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.improvedFurnaceBlock),0,new ModelResourceLocation(Gemulation.MODID+":"+Names.IMPROVED_FURNACE,"facing=north,on=false"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.gemChangerBlock),0,new ModelResourceLocation(Gemulation.MODID+":"+Names.GEM_CHANGER,"inventory"));
+        for (int i=0;i< GemChestType.values().length;i++)
+        {
+            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.gemChestBlock),i,new ModelResourceLocation(Gemulation.MODID+":"+Names.GEM_CHEST,"variant="+GemChestType.values()[i]));
+        }
 
         //items
         for (int i=0;i<3;i++)

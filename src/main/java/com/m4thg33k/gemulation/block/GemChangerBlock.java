@@ -11,6 +11,7 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class GemChangerBlock extends BaseBlock {
@@ -46,5 +47,55 @@ public class GemChangerBlock extends BaseBlock {
         InventoryHelper.dropInventoryItems(worldIn,pos,te);
 
         super.breakBlock(worldIn, pos, state);
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean isBlockNormalCube() {
+        return false;
+    }
+
+    @Override
+    public boolean isNormalCube() {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube() {
+        return false;
+    }
+
+    @Override
+    public boolean isNormalCube(IBlockAccess world, BlockPos pos) {
+        return false;
+    }
+
+    @Override
+    public boolean isFullBlock() {
+        return false;
+    }
+
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+        return false;
+    }
+
+    @Override
+    public boolean doesSideBlockRendering(IBlockAccess world, BlockPos pos, EnumFacing face) {
+        return false;
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+        this.setBlockBounds(0.0f,0.0f,0.0f,1.0f,0.57143f,1.0f);
+    }
+
+    @Override
+    public int getRenderType() {
+        return 3;
     }
 }

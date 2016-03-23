@@ -1,6 +1,11 @@
 # Creative Tabs
-
+#-------------------------------------------------------------------
 itemGroup.tabGemulation=Gemulation
+
+#-------------------------------------------------------------------
+# Containers
+#-------------------------------------------------------------------
+container.GemChangerBlock.name=Gem Changer
 #-------------------------------------------------------------------
 # Blocks
 #-------------------------------------------------------------------
@@ -18,6 +23,21 @@ tile.GemFurnaceBlock_10.name=Morganite Furnace
 tile.GemFurnaceBlock_11.name=Onyx Furnace
 
 tile.ImprovedFurnaceBlock.name=Improved Furnace
+
+tile.GemChangerBlock.name=Gem Changer
+
+tile.gemulation:ruby_chest.name=Ruby Chest
+tile.gemulation:garnet_chest.name=Garnet Chest
+tile.gemulation:topaz_chest.name=Topaz Chest
+tile.gemulation:heliodor_chest.name=Heliodor Chest
+tile.gemulation:peridot_chest.name=Peridot Chest
+tile.gemulation:emerald_chest.name=Emerald Chest
+tile.gemulation:aquamarine_chest.name=Aquamarine Chest
+tile.gemulation:sapphire_chest.name=Sapphire Chest
+tile.gemulation:iolite_chest.name=Iolite Chest
+tile.gemulation:amethyst_chest.name=Amethyst Chest
+tile.gemulation:morganite_chest.name=Morganite Chest
+tile.gemulation:onyx_chest.name=Onyx Chest
 #-------------------------------------------------------------------
 # Items
 #-------------------------------------------------------------------

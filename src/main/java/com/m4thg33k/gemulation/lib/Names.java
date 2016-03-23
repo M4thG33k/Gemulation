@@ -6,6 +6,7 @@ public class Names {
     public static final String GEM_FURNACE = "GemFurnaceBlock";
     public static final String IMPROVED_FURNACE = "ImprovedFurnaceBlock";
     public static final String GEM_CHANGER = "GemChangerBlock";
+    public static final String GEM_CHEST = "GemChestBlock";
 
     //Items
     public static final String FURNACE_UPGRADE = "FurnaceUpgradeItem";

@@ -1,0 +1,5 @@
+# Blender MTL File: 'GemChangerTriangulated.blend'
+# Material Count: 1
+
+newmtl None
+map_Kd gemulation:blocks/GemChanger

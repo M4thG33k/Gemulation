@@ -11,8 +11,8 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 //This type of slot allows no items put into it from a user (the te can still do it though)
 public class SlotVariableInput extends Slot {
 
-    private boolean allowInsertion;
-    private boolean allowRemoval;
+    protected boolean allowInsertion;
+    protected boolean allowRemoval;
 
     public SlotVariableInput(IInventory inv, int index, int xpos, int ypos, boolean allowInsertion,boolean allowRemoval)
     {

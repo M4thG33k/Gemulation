@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = Gemulation.MODID,name = Gemulation.MODNAME, version = Gemulation.VERSION, dependencies = "required-after:SilentGems@[1.3.9,)")
+@Mod(modid = Gemulation.MODID,name = Gemulation.MODNAME, version = Gemulation.VERSION, dependencies = "required-after:SilentGems@[1.3.12,)")
 public class Gemulation {
 
     public static final String MODID = "gemulation";

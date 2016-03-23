@@ -12,6 +12,13 @@
         }
       }
     }],
+    "normal": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 10
+        }
+      }
+    }],
     "facing=north,on=true,variant=ruby": [{
       "textures":{
         "front": "gemulation:blocks/OnFurnaceGemBlock0",
@@ -109,6 +116,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=ruby": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock0",
         "side": "silentgems:blocks/GemBlock0",
@@ -117,6 +133,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=garnet": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock1",
         "side": "silentgems:blocks/GemBlock1",
@@ -125,6 +150,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=topaz": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock2",
         "side": "silentgems:blocks/GemBlock2",
@@ -133,6 +167,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=heliodor": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock3",
         "side": "silentgems:blocks/GemBlock3",
@@ -141,6 +184,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=peridot": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock4",
         "side": "silentgems:blocks/GemBlock4",
@@ -149,6 +201,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=beryl": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock5",
         "side": "silentgems:blocks/GemBlock5",
@@ -157,6 +218,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=aquamarine": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock6",
         "side": "silentgems:blocks/GemBlock6",
@@ -165,6 +235,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=sapphire": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock7",
         "side": "silentgems:blocks/GemBlock7",
@@ -173,6 +252,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=iolite": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock8",
         "side": "silentgems:blocks/GemBlock8",
@@ -181,6 +269,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=amethyst": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock9",
         "side": "silentgems:blocks/GemBlock9",
@@ -189,6 +286,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=morganite": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock10",
         "side": "silentgems:blocks/GemBlock10",
@@ -197,6 +303,15 @@
       "y": 0
     }],
     "facing=north,on=false,variant=onyx": [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 0.375,
+          "rotation": {
+            "z": 180
+          },
+          "translation": [0,0.1,-0.2]
+        }
+      },
       "textures":{
         "front": "gemulation:blocks/FurnaceGemBlock11",
         "side": "silentgems:blocks/GemBlock11",

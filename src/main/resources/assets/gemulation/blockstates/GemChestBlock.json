@@ -1,0 +1,178 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "gemulation:chest_dummy",
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "inventory" :
+    [{
+      "transform": {
+        "thirdperson" : {
+          "scale": 10
+        }
+      }
+    }],
+    "variant":
+    {
+      "ruby": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest0",
+          "particle": "silentgems:blocks/GemBlock0"
+        }
+      },
+      "garnet": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest1",
+          "particle": "silentgems:blocks/GemBlock1"
+        }
+      },
+      "topaz": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest2",
+          "particle": "silentgems:blocks/GemBlock2"
+        }
+      },
+      "heliodor": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest3",
+          "particle": "silentgems:blocks/GemBlock3"
+        }
+      },
+      "peridot": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest4",
+          "particle": "silentgems:blocks/GemBlock4"
+        }
+      },
+      "emerald": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest5",
+          "particle": "silentgems:blocks/GemBlock5"
+        }
+      },
+      "aquamarine": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest6",
+          "particle": "silentgems:blocks/GemBlock6"
+        }
+      },
+      "sapphire": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest7",
+          "particle": "silentgems:blocks/GemBlock7"
+        }
+      },
+      "iolite": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest8",
+          "particle": "silentgems:blocks/GemBlock8"
+        }
+      },
+      "amethyst": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest9",
+          "particle": "silentgems:blocks/GemBlock9"
+        }
+      },
+      "morganite": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest10",
+          "particle": "silentgems:blocks/GemBlock10"
+        }
+      },
+      "onyx": {
+        "transform":
+        {
+          "thirdperson":
+          {
+            "scale": 1
+          }
+        },
+        "textures": {
+          "material": "gemulation:model/GemChest11",
+          "particle": "silentgems:blocks/GemBlock11"
+        }
+      }
+    },
+    "normal": [{
+    }]
+  }
+}

@@ -4,12 +4,16 @@ import com.m4thg33k.gemulation.tiles.TileGemChanger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerGemChanger extends Container {
 
     private TileGemChanger te;
+
+    public int workValue = 0;
+    public int storedEnergy = 0;
 
     public ContainerGemChanger(InventoryPlayer playerInventory, TileGemChanger tileGemChanger)
     {
@@ -107,5 +111,55 @@ public class ContainerGemChanger extends Container {
             slot.onPickupFromSlot(playerIn,current);
         }
         return previous;
+    }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+
+        for (int i=0;i<this.crafters.size();i++)
+        {
+            ICrafting iCrafting = this.crafters.get(i);
+
+            if (this.workValue != this.te.workTime)
+            {
+                iCrafting.sendProgressBarUpdate(this,0,this.te.workTime);
+            }
+
+            if (this.storedEnergy != this.te.getEnergyStored())
+            {
+                iCrafting.sendProgressBarUpdate(this,1,this.te.getEnergyStored()%1000);
+                iCrafting.sendProgressBarUpdate(this,2,this.te.getEnergyStored()/1000);
+            }
+        }
+
+        this.workValue = this.te.workTime;
+        this.storedEnergy = this.te.getEnergyStored();
+    }
+
+    @Override
+    public void onCraftGuiOpened(ICrafting iCrafting) {
+        super.onCraftGuiOpened(iCrafting);
+
+        iCrafting.sendProgressBarUpdate(this,0,workValue);
+        iCrafting.sendProgressBarUpdate(this,1,this.te.getEnergyStored()%1000);
+        iCrafting.sendProgressBarUpdate(this,2,this.te.getEnergyStored()/1000);
+    }
+
+    @Override
+    public void updateProgressBar(int id, int data) {
+        switch (id)
+        {
+            case 0:
+                workValue = data;
+                break;
+            case 1:
+                storedEnergy = data;
+                break;
+            case 2:
+                storedEnergy += data*1000;
+                break;
+            default:
+        }
     }
 }

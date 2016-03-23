@@ -8,6 +8,7 @@ import com.m4thg33k.gemulation.items.ModItems;
 import com.m4thg33k.gemulation.network.packets.GemulationPackets;
 import com.m4thg33k.gemulation.network.packets.PacketNBT;
 import com.m4thg33k.gemulation.tiles.ModTiles;
+import com.m4thg33k.gemulation.tiles.TileGemChest;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -25,6 +26,7 @@ public class CommonProxy {
     public void init(FMLInitializationEvent e)
     {
         NetworkRegistry.INSTANCE.registerGuiHandler(Gemulation.instance,new GemulationGuiHandler());
+//        this.registerRenderInformation();
         ModTiles.init();
         ModRecipes.init();
     }
@@ -35,6 +37,16 @@ public class CommonProxy {
     }
 
     public void handleNBTPacket(PacketNBT message)
+    {
+
+    }
+
+    public void registerRenderInformation()
+    {
+
+    }
+
+    public <T extends TileGemChest> void registerTileEntitySpecialRenderer(Class<T> type)
     {
 
     }
