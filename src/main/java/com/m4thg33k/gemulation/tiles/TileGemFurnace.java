@@ -71,7 +71,7 @@ public class TileGemFurnace extends TileEntity implements IInventory, ITickable{
             cookTimeFactor = 1;
             fuelBooster = 1;
             upgradeCount = 0;
-            maxFuel = 12800;
+            maxFuel = 20000;
             this.upgrades = null;
         }
         else
